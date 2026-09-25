@@ -1,0 +1,2913 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دراسة المعلومات — أمن المعلومات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+      :root {
+        --primary: #09637e;
+        --secondary: #088395;
+        --accent: #7ab2b2;
+        --bg: #f7fafc;
+        --surface: #ffffff;
+        --text: #17202a;
+        --muted: #64748b;
+        --success: #16a34a;
+        --warning: #d97706;
+        --danger: #dc2626;
+        --border: #e2e8f0;
+      }
+      html[data-theme="dark"] {
+        --bg: #0e1620;
+        --surface: #152230;
+        --text: #eaf2f5;
+        --muted: #93a5b3;
+        --border: #24384a;
+        --primary: #38b7d6;
+        --secondary: #5fcbd8;
+        --accent: #7ab2b2;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+      .font-mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+      ::selection {
+        background: var(--accent);
+        color: #fff;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--secondary);
+      }
+      .section-title {
+        font-weight: 800;
+        font-size: 1.7rem;
+      }
+      a,
+      button {
+        cursor: pointer;
+      }
+      .term-chip {
+        border: 1px solid var(--border);
+        background: var(--surface);
+      }
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 8px;
+      }
+      .flip-card {
+        perspective: 1200px;
+      }
+      .flip-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+      }
+      .flip-card.flipped .flip-inner {
+        transform: rotateY(180deg);
+      }
+      .flip-face {
+        position: absolute;
+        inset: 0;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.1rem;
+        text-align: center;
+      }
+      .flip-back {
+        transform: rotateY(180deg);
+      }
+      .sidebar-link {
+        transition: all 0.2s ease;
+        position: relative;
+        border-right: 3px solid transparent;
+      }
+      .sidebar-link:hover {
+        background: rgba(9, 99, 126, 0.08);
+        color: var(--primary) !important;
+      }
+      html[data-theme="dark"] .sidebar-link:hover {
+        background: rgba(56, 183, 214, 0.12);
+      }
+      .sidebar-link.active {
+        background: rgba(9, 99, 126, 0.12) !important;
+        color: var(--primary) !important;
+        font-weight: 700 !important;
+        border-right-color: var(--primary) !important;
+      }
+      html[data-theme="dark"] .sidebar-link.active {
+        background: rgba(56, 183, 214, 0.18) !important;
+        color: var(--primary) !important;
+      }
+      .sidebar-link.active svg {
+        color: var(--primary) !important;
+      }
+      #scrollbar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary);
+        z-index: 60;
+        width: 0%;
+      }
+      .hl {
+        background: rgba(122, 178, 178, 0.35);
+        border-radius: 4px;
+      }
+      kbd {
+        background: var(--border);
+        padding: 2px 7px;
+        border-radius: 6px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 0.6rem 0.8rem;
+        text-align: right;
+        font-size: 0.92rem;
+      }
+      th {
+        background: var(--bg);
+        font-weight: 700;
+      }
+      .quiz-opt {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-align: right;
+        transition: all 0.15s;
+      }
+      .quiz-opt:hover {
+        border-color: var(--secondary);
+      }
+      .quiz-opt.correct {
+        border-color: var(--success);
+        background: rgba(22, 163, 74, 0.1);
+      }
+      .quiz-opt.wrong {
+        border-color: var(--danger);
+        background: rgba(220, 38, 38, 0.1);
+      }
+      .focus-ring:focus-visible {
+        outline: 3px solid var(--secondary);
+        outline-offset: 2px;
+      }
+      [data-tab-panel] {
+        display: none;
+      }
+      [data-tab-panel].active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scrollbar"></div>
+
+    <!-- ===================== HEADER ===================== -->
+    <header
+      class="sticky top-0 z-50 backdrop-blur border-b"
+      style="
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+        border-color: var(--border);
+      "
+    >
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+        <button
+          id="sidebarToggle"
+          class="lg:hidden p-2 rounded-lg card focus-ring"
+          aria-label="فتح قائمة الدروس"
+        >
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-9 h-9 rounded-lg flex items-center justify-center"
+            style="background: var(--primary)"
+          >
+            <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-base leading-tight">
+              دراسة المعلومات
+            </h1>
+            <p class="text-xs muted leading-tight">
+              أمن المعلومات والتهديدات والتدابير المضادة
+            </p>
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center flex-1 max-w-xs mx-4 relative">
+          <i data-lucide="search" class="w-4 h-4 absolute right-3 muted"></i>
+          <input
+            id="searchBox"
+            type="text"
+            placeholder="ابحث: Phishing، Firewall، CIA..."
+            class="w-full py-2 pr-9 pl-3 rounded-lg text-sm card focus-ring outline-none"
+            style="background: var(--bg)"
+          />
+          <div
+            id="searchResults"
+            class="hidden absolute top-11 right-0 left-0 card shadow-lg max-h-72 overflow-y-auto z-50"
+          ></div>
+        </div>
+
+        <div class="flex items-center gap-2 mr-auto">
+          <div class="hidden sm:flex items-center gap-2 text-xs muted">
+            <div
+              class="w-28 h-2 rounded-full overflow-hidden"
+              style="background: var(--border)"
+            >
+              <div
+                id="progressBar"
+                class="h-full"
+                style="
+                  width: 0%;
+                  background: var(--primary);
+                  transition: width 0.2s;
+                "
+              ></div>
+            </div>
+            <span id="progressLabel">0%</span>
+          </div>
+          <button
+            id="darkToggle"
+            class="p-2 rounded-lg card focus-ring"
+            aria-label="تبديل الوضع الليلي"
+          >
+            <i data-lucide="moon" class="w-5 h-5" id="darkIcon"></i>
+          </button>
+        </div>
+      </div>
+      <div class="md:hidden px-4 pb-3 relative">
+        <i
+          data-lucide="search"
+          class="w-4 h-4 absolute right-8 top-2.5 muted"
+        ></i>
+        <input
+          id="searchBoxMobile"
+          type="text"
+          placeholder="ابحث في الدروس..."
+          class="w-full py-2 pr-9 pl-3 rounded-lg text-sm card focus-ring outline-none"
+          style="background: var(--bg)"
+        />
+        <div
+          id="searchResultsMobile"
+          class="hidden absolute top-12 right-4 left-4 card shadow-lg max-h-72 overflow-y-auto z-50"
+        ></div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto flex">
+      <!-- ===================== SIDEBAR ===================== -->
+      <aside
+        id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-[73px] right-0 h-full lg:h-[calc(100vh-73px)] w-80 max-w-[85vw] lg:w-72 shrink-0 z-50 lg:z-30 border-l transition-transform duration-300 ease-in-out translate-x-full lg:translate-x-0 flex flex-col shadow-2xl lg:shadow-none"
+        style="background: var(--surface); border-color: var(--border)"
+      >
+        <!-- Mobile Drawer Header -->
+        <div
+          class="flex lg:hidden items-center justify-between p-4 border-b shrink-0"
+          style="border-color: var(--border); background: var(--surface)"
+        >
+          <div class="flex items-center gap-2.5">
+            <div
+              class="w-8 h-8 rounded-lg flex items-center justify-center text-white"
+              style="background: var(--primary)"
+            >
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-bold text-sm leading-tight block"
+                >قائمة الدروس</span
+              >
+              <span class="text-[11px] muted leading-tight block"
+                >أمن المعلومات</span
+              >
+            </div>
+          </div>
+          <button
+            id="sidebarClose"
+            class="p-2 rounded-lg card hover:bg-black/5 focus-ring"
+            aria-label="إغلاق القائمة"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Quick Sidebar Filter -->
+        <div class="p-3 border-b shrink-0" style="border-color: var(--border)">
+          <div class="relative">
+            <i
+              data-lucide="filter"
+              class="w-3.5 h-3.5 absolute right-3 top-2.5 muted"
+            ></i>
+            <input
+              id="sidebarFilter"
+              type="text"
+              placeholder="تصفية المفاهيم..."
+              class="w-full py-1.5 pr-8 pl-3 rounded-lg text-xs card focus-ring outline-none"
+              style="background: var(--bg)"
+            />
+          </div>
+        </div>
+
+        <!-- Sidebar Scrollable Nav -->
+        <nav class="flex-1 overflow-y-auto p-4 space-y-6 text-sm" id="sideNav">
+          <!-- Lesson 1 -->
+          <div class="sidebar-section">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-[11px] font-bold muted">الدرس الأول</p>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                style="background: rgba(9, 99, 126, 0.1); color: var(--primary)"
+                >7 عناصر</span
+              >
+            </div>
+            <p class="font-bold mb-2 text-sm flex items-center gap-1.5">
+              <i
+                data-lucide="shield"
+                class="w-4 h-4"
+                style="color: var(--primary)"
+              ></i>
+              أمن المعلومات 1
+            </p>
+            <div class="space-y-1">
+              <a
+                href="#l1-intro"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="info" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>مفهوم أمن المعلومات</span>
+              </a>
+              <a
+                href="#l1-cia"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="triangle"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>CIA Triad</span>
+              </a>
+              <a
+                href="#l1-unauth"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="user-x" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>الوصول غير المصرح به</span>
+              </a>
+              <a
+                href="#l1-cracking"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="unlock" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>Cracking</span>
+              </a>
+              <a
+                href="#l1-malware"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="bug" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>البرمجيات الخبيثة Malware</span>
+              </a>
+              <a
+                href="#l1-cybercrime"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="gavel" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>الجرائم الإلكترونية Cybercrime</span>
+              </a>
+              <a
+                href="#l1-case"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="briefcase"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>دراسة حالة تفاعلية</span>
+              </a>
+              <a
+                href="quiz.html?lesson=1"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/30 hover:bg-blue-100/80"
+              >
+                <i data-lucide="help-circle" class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0"></i>
+                <span>اختبار الدرس الأول (50 سؤال)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Lesson 2 -->
+          <div class="sidebar-section">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-[11px] font-bold muted">الدرس الثاني</p>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                style="background: rgba(9, 99, 126, 0.1); color: var(--primary)"
+                >5 عناصر</span
+              >
+            </div>
+            <p class="font-bold mb-2 text-sm flex items-center gap-1.5">
+              <i
+                data-lucide="key-round"
+                class="w-4 h-4"
+                style="color: var(--primary)"
+              ></i>
+              كلمات المرور والمصادقة
+            </p>
+            <div class="space-y-1">
+              <a
+                href="#l2-password"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="key" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>Password كلمة المرور</span>
+              </a>
+              <a
+                href="#l2-otp"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="message-square-lock"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>OTP كلمة المرة الواحدة</span>
+              </a>
+              <a
+                href="#l2-auth"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="fingerprint"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>Authentication المصادقة</span>
+              </a>
+              <a
+                href="#l2-2fa"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="smartphone-nfc"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>2FA و Two-Step</span>
+              </a>
+              <a
+                href="#l2-measures"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="shield-check"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>إجراءات الحماية والوقاية</span>
+              </a>
+              <a
+                href="quiz.html?lesson=2"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/80 dark:bg-indigo-950/30 hover:bg-indigo-100/80"
+              >
+                <i data-lucide="key-round" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0"></i>
+                <span>اختبار الدرس الثاني (50 سؤال)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Lesson 3 -->
+          <div class="sidebar-section">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-[11px] font-bold muted">الدرس الثالث</p>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                style="background: rgba(9, 99, 126, 0.1); color: var(--primary)"
+                >6 عناصر</span
+              >
+            </div>
+            <p class="font-bold mb-2 text-sm flex items-center gap-1.5">
+              <i
+                data-lucide="shield-alert"
+                class="w-4 h-4"
+                style="color: var(--primary)"
+              ></i>
+              الاحتيال والحصول غير المصرح
+            </p>
+            <div class="space-y-1">
+              <a
+                href="#l3-billing"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="file-warning"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>Fraudulent Billing</span>
+              </a>
+              <a
+                href="#l3-oneclick"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="mouse-pointer-click"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>One-click Fraud</span>
+              </a>
+              <a
+                href="#l3-phishing"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="mail-warning"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>Phishing التصيد الإشعاعي</span>
+              </a>
+              <a
+                href="#l3-social"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="users" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>Social Engineering</span>
+              </a>
+              <a
+                href="#l3-skimming"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="credit-card"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>Skimming الاحتيال بالبطاقات</span>
+              </a>
+              <a
+                href="#l3-policy"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="file-text"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>سياسة أمن المعلومات Policy</span>
+              </a>
+              <a
+                href="quiz.html?lesson=3"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/30 hover:bg-emerald-100/80"
+              >
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0"></i>
+                <span>اختبار الدرس الثالث (50 سؤال)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Final Section -->
+          <div class="sidebar-section">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-[11px] font-bold muted">المراجعة والأنشطة</p>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                style="background: rgba(122, 178, 178, 0.2); color: var(--text)"
+                >6 أقسام</span
+              >
+            </div>
+            <p class="font-bold mb-2 text-sm flex items-center gap-1.5">
+              <i
+                data-lucide="sparkles"
+                class="w-4 h-4"
+                style="color: var(--secondary)"
+              ></i>
+              الملخص والتطبيقات
+            </p>
+            <div class="space-y-1">
+              <a
+                href="#comparison"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="table" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>مقارنة شاملة للمفاهيم</span>
+              </a>
+              <a
+                href="#examples"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="lightbulb"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>أمثلة من الحياة اليومية</span>
+              </a>
+              <a
+                href="#map"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="git-fork"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>خريطة المفاهيم الشاملة</span>
+              </a>
+              <a
+                href="#quiz"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i
+                  data-lucide="help-circle"
+                  class="w-3.5 h-3.5 muted shrink-0"
+                ></i>
+                <span>اختبار تفاعلي سريع</span>
+              </a>
+              <a
+                href="#flashcards"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="layers" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>بطاقات المصطلحات</span>
+              </a>
+              <a
+                href="#exam"
+                class="sidebar-link flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+              >
+                <i data-lucide="award" class="w-3.5 h-3.5 muted shrink-0"></i>
+                <span>أهم النقاط للاختبارات</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div
+          class="p-3 border-t shrink-0 text-center text-[11px] muted"
+          style="border-color: var(--border); background: var(--bg)"
+        >
+          <p class="font-semibold">دراسة أمن المعلومات — 2026</p>
+        </div>
+      </aside>
+      <div
+        id="sidebarOverlay"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"
+      ></div>
+
+      <!-- ===================== MAIN ===================== -->
+      <main class="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 py-8" id="mainContent">
+        <!-- HERO -->
+        <section
+          class="rounded-2xl p-8 sm:p-12 mb-14 relative overflow-hidden"
+          style="
+            background: linear-gradient(
+              135deg,
+              var(--primary),
+              var(--secondary)
+            );
+          "
+        >
+          <div class="relative z-10 max-w-2xl">
+            <p class="text-white/80 text-sm font-semibold mb-2">
+              دروس أمن المعلومات — المرحلة الثانوية
+            </p>
+            <h2
+              class="text-3xl sm:text-4xl font-black text-white mb-4 leading-tight"
+            >
+              أمن المعلومات
+            </h2>
+            <p class="text-white/90 leading-8 mb-6">
+              افهم كيف نحمي البيانات والأنظمة من الاختراق والبرمجيات الخبيثة
+              والاحتيال.
+            </p>
+            <div class="flex flex-wrap gap-3 mb-7">
+              <div class="bg-white/15 rounded-xl px-4 py-2 text-white text-sm">
+                3 دروس
+              </div>
+              <div class="bg-white/15 rounded-xl px-4 py-2 text-white text-sm">
+                CIA Triad
+              </div>
+              <div class="bg-white/15 rounded-xl px-4 py-2 text-white text-sm">
+                15+ مفهوم أساسي
+              </div>
+            </div>
+            <a
+              href="#l1-intro"
+              class="inline-flex items-center gap-2 bg-white text-[color:var(--primary)] font-bold px-5 py-3 rounded-xl hover:opacity-90"
+            >
+              ابدأ الدرس الأول <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+          </div>
+          <i
+            data-lucide="shield"
+            class="w-56 h-56 text-white/10 absolute -left-6 -bottom-10"
+          ></i>
+        </section>
+
+        <!-- ============ LESSON 1 ============ -->
+        <section class="mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <span
+              class="text-xs font-bold px-3 py-1 rounded-full"
+              style="background: var(--accent); color: #04333f"
+              >الدرس الأول</span
+            >
+            <h2 class="section-title">أمن المعلومات 1 — التهديدات الأساسية</h2>
+          </div>
+
+          <article id="l1-intro" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">مفهوم أمن المعلومات</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-4">
+                <strong>التعريف:</strong> أمن المعلومات هو عملية إدارة المعلومات
+                بطريقة صحيحة والحفاظ عليها من الوصول غير المصرح به أو التعديل أو
+                التدمير أو فقدان إمكانية الوصول إليها.
+              </p>
+              <div
+                class="rounded-xl p-4 flex gap-3"
+                style="background: var(--bg)"
+              >
+                <i
+                  data-lucide="lightbulb"
+                  class="w-5 h-5 shrink-0 mt-1"
+                  style="color: var(--warning)"
+                ></i>
+                <p class="leading-7 text-sm">
+                  <strong>مثال:</strong> لو عندك درجات الطلاب على الكمبيوتر،
+                  لازم الشخص المسموح له فقط يشوفها، ومحدش يغيرها، وتفضل موجودة
+                  عندما تحتاج إليها.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l1-cia" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-1">
+              العناصر الثلاثة لأمن المعلومات
+            </h3>
+            <p class="muted text-sm mb-5">CIA Triad</p>
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="eye-off"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">
+                  Confidentiality
+                  <span class="muted font-normal text-sm">— السرية</span>
+                </h4>
+                <p class="text-sm leading-7 mb-2">
+                  المعلومات يشوفها الأشخاص المصرح لهم فقط.
+                </p>
+                <p class="text-xs muted">
+                  مثال: درجات الطلاب لا يراها إلا الأشخاص المصرح لهم.
+                </p>
+              </div>
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="check-check"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">
+                  Integrity
+                  <span class="muted font-normal text-sm"
+                    >— السلامة/التكامل</span
+                  >
+                </h4>
+                <p class="text-sm leading-7 mb-2">
+                  المعلومات تظل صحيحة ولم يتم تغييرها أو العبث بها أو حذفها
+                  بطريقة غير مصرح بها.
+                </p>
+                <p class="text-xs muted">مثال: 18/20 أصبحت 20/20 بدون تصريح.</p>
+              </div>
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="server"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">
+                  Availability
+                  <span class="muted font-normal text-sm">— التوافرية</span>
+                </h4>
+                <p class="text-sm leading-7 mb-2">
+                  المعلومات أو النظام يكون متاحًا عندما نحتاج إليه.
+                </p>
+                <p class="text-xs muted">
+                  مثال: موقع النتائج توقف وقت إعلان النتائج بسبب هجوم إلكتروني.
+                </p>
+              </div>
+            </div>
+            <div class="card p-5 overflow-x-auto mb-4">
+              <table>
+                <thead>
+                  <tr>
+                    <th>العنصر</th>
+                    <th>معناه</th>
+                    <th>مثال للمشكلة</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Confidentiality</td>
+                    <td>مين مسموح له يشوف؟</td>
+                    <td>تسريب كلمة السر</td>
+                  </tr>
+                  <tr>
+                    <td>Integrity</td>
+                    <td>هل البيانات صحيحة؟</td>
+                    <td>تغيير درجة طالب</td>
+                  </tr>
+                  <tr>
+                    <td>Availability</td>
+                    <td>هل أستطيع الوصول؟</td>
+                    <td>توقف الموقع</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="rounded-xl p-4 inline-flex items-center gap-2 text-sm font-semibold"
+              style="background: rgba(217, 119, 6, 0.1); color: var(--warning)"
+            >
+              <i data-lucide="brain" class="w-4 h-4"></i> تلميح للحفظ: تذكّر
+              الحروف "CIA"
+            </div>
+          </article>
+
+          <article id="l1-unauth" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">
+              الوصول غير المصرح به
+              <span class="muted font-normal text-base"
+                >— Unauthorized Access</span
+              >
+            </h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-3">
+                هو الدخول إلى نظام أو جهاز بدون الحصول على إذن.
+              </p>
+              <div class="rounded-xl p-4" style="background: var(--bg)">
+                <p class="text-sm leading-7">
+                  <strong>مثال:</strong> طالب يعرف Username وPassword المدرس
+                  ويدخل إلى النظام بدون إذن.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l1-cracking" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Cracking</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-3">الوصول غير القانوني للنظام بهدف:</p>
+              <ul class="space-y-2 mb-4">
+                <li class="flex items-center gap-2 text-sm">
+                  <i
+                    data-lucide="dot"
+                    class="w-4 h-4"
+                    style="color: var(--danger)"
+                  ></i
+                  >التلاعب بالبيانات
+                </li>
+                <li class="flex items-center gap-2 text-sm">
+                  <i
+                    data-lucide="dot"
+                    class="w-4 h-4"
+                    style="color: var(--danger)"
+                  ></i
+                  >حذف البيانات
+                </li>
+                <li class="flex items-center gap-2 text-sm">
+                  <i
+                    data-lucide="dot"
+                    class="w-4 h-4"
+                    style="color: var(--danger)"
+                  ></i
+                  >سرقة البيانات
+                </li>
+              </ul>
+              <p class="text-sm muted">
+                والشخص الذي يقوم بذلك يسمى
+                <strong style="color: var(--text)">Cracker</strong>.
+              </p>
+            </div>
+          </article>
+
+          <article id="l1-malware" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-2">
+              البرمجيات الخبيثة
+              <span class="muted font-normal text-base">— Malware</span>
+            </h3>
+            <div class="card p-6 mb-5">
+              <p class="leading-8 mb-4">
+                برامج مصممة لإلحاق الضرر بالكمبيوتر أو سرقة البيانات أو تنفيذ
+                عمليات غير مرغوبة.
+              </p>
+              <p class="text-sm font-semibold mb-2">طرق الإصابة الشائعة:</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="term-chip px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5"
+                  ><i data-lucide="globe" class="w-4 h-4"></i>مواقع الويب</span
+                >
+                <span
+                  class="term-chip px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5"
+                  ><i data-lucide="mail" class="w-4 h-4"></i>مرفقات البريد</span
+                >
+                <span
+                  class="term-chip px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5"
+                  ><i data-lucide="usb" class="w-4 h-4"></i>USB</span
+                >
+                <span
+                  class="term-chip px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5"
+                  ><i data-lucide="network" class="w-4 h-4"></i>الشبكات</span
+                >
+              </div>
+            </div>
+            <div id="malwareGrid" class="grid sm:grid-cols-2 gap-4 mb-5"></div>
+            <div class="card p-5 mb-5" style="border-color: var(--accent)">
+              <p class="font-bold mb-2 text-sm">Virus مقابل Worm</p>
+              <p class="text-sm leading-7">
+                الـ <strong>Virus</strong> يحتاج ملف مضيف أو تدخل من المستخدم
+                لينتشر، بينما الـ <strong>Worm</strong> ينسخ نفسه وينتشر عبر
+                الشبكات من تلقاء نفسه دون الحاجة لملف مضيف.
+              </p>
+            </div>
+            <div class="card p-5 overflow-x-auto">
+              <table id="malwareTable">
+                <thead>
+                  <tr>
+                    <th>Malware</th>
+                    <th>ماذا يفعل؟</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article id="l1-cybercrime" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Cybercrime</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-4">
+                أفعال إجرامية يتم ارتكابها باستخدام الكمبيوتر أو الشبكات، وتنقسم
+                إلى:
+              </p>
+              <div class="space-y-3">
+                <div class="rounded-xl p-4" style="background: var(--bg)">
+                  <p class="font-semibold text-sm mb-1">
+                    1. انتهاك قانون الوصول غير المصرح به
+                  </p>
+                  <p class="text-sm muted">
+                    مثال: الدخول إلى حساب شخص آخر بدون إذنه.
+                  </p>
+                </div>
+                <div class="rounded-xl p-4" style="background: var(--bg)">
+                  <p class="font-semibold text-sm mb-1">
+                    2. جرائم تتضمن الكمبيوتر أو السجلات الإلكترونية
+                  </p>
+                  <p class="text-sm muted">
+                    مثال: تزوير سجلات إلكترونية أو تعديل بيانات مالية.
+                  </p>
+                </div>
+                <div class="rounded-xl p-4" style="background: var(--bg)">
+                  <p class="font-semibold text-sm mb-1">
+                    3. جرائم قائمة على الشبكة
+                  </p>
+                  <p class="text-sm muted">
+                    مثال: نشر برمجيات خبيثة أو شن هجمات عبر الإنترنت.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article id="l1-case" class="scroll-mt-28">
+            <h3 class="text-xl font-bold mb-1">دراسة حالة تفاعلية</h3>
+            <p class="muted text-sm mb-5">
+              منصة مدرسة إلكترونية — اضغط على كل حالة لمعرفة التفسير
+            </p>
+            <div id="caseStudyGrid" class="grid sm:grid-cols-2 gap-3"></div>
+          </article>
+
+          <!-- Lesson 1 Quiz CTA -->
+          <div
+            class="mt-8 p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm"
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(9, 99, 126, 0.08),
+                rgba(122, 178, 178, 0.15)
+              );
+              border-color: var(--border);
+            "
+          >
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow"
+                style="background: var(--primary)"
+              >
+                <i data-lucide="help-circle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-base">
+                  جاهز لاختبار معلوماتك في الدرس الأول؟
+                </h4>
+                <p class="text-xs muted mt-0.5">
+                  يتضمن 45 سؤال اختيار من متعدد + 5 أسئلة مقالية تفاعلية (50
+                  سؤالاً)
+                </p>
+              </div>
+            </div>
+            <a
+              href="quiz.html?lesson=1"
+              class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white shrink-0 flex items-center gap-2 hover:opacity-90 transition-all shadow"
+              style="background: var(--primary)"
+            >
+              <span>بدء أسئلة الدرس الأول (50 سؤال)</span>
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </section>
+
+        <!-- ============ LESSON 2 ============ -->
+        <section class="mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <span
+              class="text-xs font-bold px-3 py-1 rounded-full"
+              style="background: var(--accent); color: #04333f"
+              >الدرس الثاني</span
+            >
+            <h2 class="section-title">كلمات المرور والمصادقة</h2>
+          </div>
+
+          <article id="l2-password" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Password</h3>
+            <div class="card p-6 mb-5">
+              <p class="leading-8">
+                كلمة المرور هي سلسلة من الحروف والأرقام والرموز يستخدمها
+                المستخدم لإثبات هويته والدخول إلى حساب أو نظام معين.
+              </p>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div
+                class="rounded-xl p-5"
+                style="
+                  background: rgba(22, 163, 74, 0.07);
+                  border: 1px solid rgba(22, 163, 74, 0.3);
+                "
+              >
+                <p
+                  class="font-bold mb-3 flex items-center gap-2"
+                  style="color: var(--success)"
+                >
+                  <i data-lucide="check-circle-2" class="w-5 h-5"></i>افعل
+                </p>
+                <ul class="space-y-2 text-sm">
+                  <li>استخدم كلمة مرور طويلة</li>
+                  <li>امزج بين Capital + Small + Numbers + Symbols</li>
+                  <li>استخدم كلمة مرور مختلفة لكل حساب</li>
+                </ul>
+              </div>
+              <div
+                class="rounded-xl p-5"
+                style="
+                  background: rgba(220, 38, 38, 0.07);
+                  border: 1px solid rgba(220, 38, 38, 0.3);
+                "
+              >
+                <p
+                  class="font-bold mb-3 flex items-center gap-2"
+                  style="color: var(--danger)"
+                >
+                  <i data-lucide="x-circle" class="w-5 h-5"></i>لا تفعل
+                </p>
+                <ul class="space-y-2 text-sm">
+                  <li>لا تستخدم معلوماتك الشخصية (اسمك، تاريخ ميلادك)</li>
+                  <li>لا تعيد استخدام نفس كلمة المرور في أكثر من موقع</li>
+                  <li>لا تشارك كلمة مرورك مع أي شخص</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article id="l2-otp" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">
+              OTP
+              <span class="muted font-normal text-base"
+                >— One-Time Password</span
+              >
+            </h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-4">
+                كلمة مرور تُستخدم مرة واحدة فقط أو لفترة زمنية محدودة، وتصبح غير
+                صالحة بعد الاستخدام أو انتهاء المدة.
+              </p>
+              <div
+                class="inline-flex items-center gap-3 rounded-xl p-4"
+                style="background: var(--bg)"
+              >
+                <i
+                  data-lucide="message-square-lock"
+                  class="w-5 h-5"
+                  style="color: var(--primary)"
+                ></i>
+                <span class="font-mono text-lg font-bold tracking-widest"
+                  >482913</span
+                >
+                <span class="text-xs muted">صالحة لدقائق فقط</span>
+              </div>
+            </div>
+          </article>
+
+          <article id="l2-auth" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-1">Authentication</h3>
+            <p class="muted text-sm mb-5">
+              المصادقة: عملية التحقق من هوية المستخدم قبل السماح له بالوصول إلى
+              نظام أو معلومة.
+            </p>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="brain-cog"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">Knowledge-based</h4>
+                <p class="text-xs muted mb-2">شيء تعرفه</p>
+                <p class="text-sm">Password، PIN، Security Question</p>
+              </div>
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="smartphone"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">Possession-based</h4>
+                <p class="text-xs muted mb-2">شيء تمتلكه</p>
+                <p class="text-sm">Phone، Smart Card، OTP، SMS Code</p>
+              </div>
+              <div class="card p-5">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                  style="background: rgba(9, 99, 126, 0.1)"
+                >
+                  <i
+                    data-lucide="fingerprint"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i>
+                </div>
+                <h4 class="font-bold mb-1">Biometric</h4>
+                <p class="text-xs muted mb-2">خصائص جسدية أو سلوكية</p>
+                <p class="text-sm">Fingerprint، Iris، Vein Pattern</p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l2-2fa" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">
+              Two-Factor Authentication (2FA) و Two-Step Authentication
+            </h3>
+            <div class="card p-6 mb-4">
+              <p class="leading-8 mb-3">
+                <strong>2FA:</strong> استخدام عاملين مختلفين من عوامل المصادقة
+                معًا.
+              </p>
+              <div class="rounded-xl p-4 mb-4" style="background: var(--bg)">
+                <p class="text-sm leading-7">
+                  مثال: <strong>Password</strong> (Knowledge) +
+                  <strong>SMS Code</strong> (Possession) = عاملان مختلفان
+                </p>
+              </div>
+              <p class="leading-8 mb-3">
+                <strong>Two-Step:</strong> خطوتان للتحقق، لكن باستخدام معلومات
+                من نفس نوع العامل.
+              </p>
+              <div class="rounded-xl p-4" style="background: var(--bg)">
+                <p class="text-sm leading-7">
+                  مثال: <strong>Password</strong> +
+                  <strong>Security Question</strong> = كلاهما Knowledge
+                </p>
+              </div>
+            </div>
+            <div class="card p-5 overflow-x-auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Two-Factor</th>
+                    <th>Two-Step</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>عاملان مختلفان</td>
+                    <td>خطوتان</td>
+                  </tr>
+                  <tr>
+                    <td>Password + SMS</td>
+                    <td>Password + Security Question</td>
+                  </tr>
+                  <tr>
+                    <td>Knowledge + Possession</td>
+                    <td>Knowledge + Knowledge</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article id="l2-measures" class="scroll-mt-28">
+            <h3 class="text-xl font-bold mb-5">إجراءات الحماية</h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="users"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Access Control
+                </h4>
+                <p class="text-sm leading-7 mb-3">
+                  تحديد من يستطيع الوصول إلى ماذا داخل النظام.
+                </p>
+                <div class="text-xs space-y-1 muted">
+                  <p>Teacher ← درجات الطلاب</p>
+                  <p>Student ← درجاته فقط</p>
+                  <p>Admin ← صلاحيات إدارية كاملة</p>
+                </div>
+              </div>
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="flame"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Firewall
+                </h4>
+                <p class="text-sm leading-7">
+                  يعمل كحارس على بوابة الشبكة، ويساعد في منع الوصول غير المصرح
+                  به والتحكم في حركة البيانات الداخلة والخارجة.
+                </p>
+              </div>
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="shield-plus"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Antivirus
+                </h4>
+                <p class="text-sm leading-7 mb-2">يعمل من خلال:</p>
+                <p class="text-sm muted">
+                  Detection ← Isolation ← Removal، مع Updates مستمرة لقاعدة
+                  بياناته.
+                </p>
+              </div>
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="refresh-cw"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Security Updates
+                </h4>
+                <p class="text-sm leading-7">
+                  تصحح الثغرات الأمنية (Security Vulnerabilities) التي قد
+                  يستغلها المهاجمون قبل تحديث النظام.
+                </p>
+              </div>
+              <div class="card p-5 sm:col-span-2">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="database-backup"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Backup
+                </h4>
+                <p class="text-sm leading-7">
+                  نسخ احتياطي للبيانات يسمح باستعادتها في حال فقدانها أو تلفها.
+                  مثال: نسخ احتياطي دوري لملفات الطلاب لضمان استرجاعها عند أي
+                  عطل أو هجوم Ransomware.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Lesson 2 Quiz CTA -->
+          <div
+            class="mt-8 p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm"
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(9, 99, 126, 0.08),
+                rgba(122, 178, 178, 0.15)
+              );
+              border-color: var(--border);
+            "
+          >
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow"
+                style="background: var(--primary)"
+              >
+                <i data-lucide="key-round" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-base">
+                  جاهز لاختبار معلوماتك في الدرس الثاني؟
+                </h4>
+                <p class="text-xs muted mt-0.5">
+                  يتضمن 45 سؤال اختيار من متعدد + 5 أسئلة مقالية تفاعلية (50
+                  سؤالاً)
+                </p>
+              </div>
+            </div>
+            <a
+              href="quiz.html?lesson=2"
+              class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white shrink-0 flex items-center gap-2 hover:opacity-90 transition-all shadow"
+              style="background: var(--primary)"
+            >
+              <span>بدء أسئلة الدرس الثاني (50 سؤال)</span>
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </section>
+
+        <!-- ============ LESSON 3 ============ -->
+        <section class="mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <span
+              class="text-xs font-bold px-3 py-1 rounded-full"
+              style="background: var(--accent); color: #04333f"
+              >الدرس الثالث</span
+            >
+            <h2 class="section-title">
+              الاحتيال والحصول غير المصرح به على المعلومات
+            </h2>
+          </div>
+
+          <article id="l3-billing" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Fraudulent Billing</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-3">
+                إرسال فواتير وهمية لخدمات لم يطلبها المستخدم بهدف خداعه ودفعه
+                للدفع.
+              </p>
+              <div class="rounded-xl p-4" style="background: var(--bg)">
+                <p class="text-sm">
+                  مثال: رسالة تفيد بوجود اشتراك غير مدفوع في خدمة لم يشترك بها
+                  المستخدم أصلًا، مع طلب الدفع الفوري.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l3-oneclick" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-4">One-click Fraud</h3>
+            <div class="card p-6">
+              <div
+                class="flex flex-col sm:flex-row items-center gap-3 text-sm font-semibold"
+              >
+                <div
+                  class="rounded-xl px-4 py-3 flex items-center gap-2 w-full sm:w-auto justify-center"
+                  style="background: var(--bg)"
+                >
+                  <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>User
+                  clicks URL
+                </div>
+                <i
+                  data-lucide="arrow-left"
+                  class="w-4 h-4 muted rotate-90 sm:rotate-0"
+                ></i>
+                <div
+                  class="rounded-xl px-4 py-3 flex items-center gap-2 w-full sm:w-auto justify-center"
+                  style="background: var(--bg)"
+                >
+                  <i data-lucide="file-warning" class="w-4 h-4"></i>Fake
+                  contract
+                </div>
+                <i
+                  data-lucide="arrow-left"
+                  class="w-4 h-4 muted rotate-90 sm:rotate-0"
+                ></i>
+                <div
+                  class="rounded-xl px-4 py-3 flex items-center gap-2 w-full sm:w-auto justify-center"
+                  style="
+                    background: rgba(220, 38, 38, 0.1);
+                    color: var(--danger);
+                  "
+                >
+                  <i data-lucide="credit-card" class="w-4 h-4"></i>Payment
+                  request
+                </div>
+              </div>
+              <p class="text-sm leading-7 mt-4">
+                بمجرد ضغطة واحدة على رابط، يظهر للمستخدم أنه وافق على عقد وهمي،
+                ثم يُطالب بدفع مبلغ مالي فورًا.
+              </p>
+            </div>
+          </article>
+
+          <article id="l3-phishing" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Phishing</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-4">
+                إرسال رسائل أو إنشاء مواقع مزيفة تنتحل صفة جهة موثوقة (بنك،
+                شركة) لخداع المستخدم وسرقة بياناته.
+              </p>
+              <div
+                class="rounded-xl overflow-hidden border"
+                style="border-color: var(--border)"
+              >
+                <div
+                  class="px-4 py-2 flex items-center gap-2 text-xs"
+                  style="background: var(--bg)"
+                >
+                  <i
+                    data-lucide="mail"
+                    class="w-4 h-4"
+                    style="color: var(--danger)"
+                  ></i
+                  ><span class="font-semibold">رسالة مشبوهة</span>
+                </div>
+                <div class="p-4 text-sm" style="background: var(--surface)">
+                  <p class="mb-1">
+                    <span class="muted">From:</span> Fake Bank
+                    &lt;support@fake-bank-security.com&gt;
+                  </p>
+                  <p class="mb-3">
+                    <span class="muted">Subject:</span> Your account has been
+                    suspended
+                  </p>
+                  <p class="leading-7">
+                    Your account needs verification.<br />Click here to verify
+                    your account.
+                  </p>
+                  <button
+                    class="mt-3 text-xs font-bold px-3 py-1.5 rounded-lg"
+                    style="background: var(--danger); color: #fff"
+                  >
+                    Click here to verify
+                  </button>
+                </div>
+              </div>
+              <div class="mt-4 space-y-1.5 text-sm">
+                <p class="flex items-center gap-2">
+                  <i
+                    data-lucide="alert-triangle"
+                    class="w-4 h-4"
+                    style="color: var(--warning)"
+                  ></i
+                  >الرسالة مزيفة رغم أنها تبدو رسمية.
+                </p>
+                <p class="flex items-center gap-2">
+                  <i
+                    data-lucide="alert-triangle"
+                    class="w-4 h-4"
+                    style="color: var(--warning)"
+                  ></i
+                  >الرابط قد يقود إلى موقع مزيف يشبه الموقع الأصلي.
+                </p>
+                <p class="flex items-center gap-2">
+                  <i
+                    data-lucide="alert-triangle"
+                    class="w-4 h-4"
+                    style="color: var(--warning)"
+                  ></i
+                  >الهدف سرقة Password أو PIN أو بيانات البطاقة (Card Data).
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l3-social" class="mb-12 scroll-mt-28">
+            <div
+              class="rounded-2xl p-6 mb-5 text-white"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--primary),
+                  var(--secondary)
+                );
+              "
+            >
+              <h3 class="text-xl font-bold mb-2">Social Engineering</h3>
+              <p class="leading-7">
+                المهاجم لا يخترق الكمبيوتر... أحيانًا يخدع الإنسان.
+              </p>
+            </div>
+            <div class="card p-6 mb-5">
+              <p class="leading-8">
+                الهندسة الاجتماعية هي التلاعب النفسي بالأشخاص لدفعهم للكشف عن
+                معلومات سرية أو القيام بأفعال تضر بأمن المعلومات.
+              </p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="user-round-search"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Impersonation
+                </h4>
+                <p class="text-sm leading-7 mb-2">
+                  التظاهر بأنه شخص آخر لكسب الثقة.
+                </p>
+                <p class="text-xs muted">
+                  مثال: شخص يتصل ويدعي أنه موظف من قسم IT.
+                </p>
+              </div>
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="eye"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Shoulder Surfing
+                </h4>
+                <p class="text-sm leading-7">
+                  مراقبة الشخص أثناء كتابة PIN أو Password للحصول عليها.
+                </p>
+              </div>
+              <div class="card p-5">
+                <h4 class="font-bold mb-2 flex items-center gap-2">
+                  <i
+                    data-lucide="trash-2"
+                    class="w-5 h-5"
+                    style="color: var(--primary)"
+                  ></i
+                  >Dumpster Diving
+                </h4>
+                <p class="text-sm leading-7">
+                  البحث في القمامة عن أوراق أو معلومات سرية مُلقاة دون إتلاف.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l3-skimming" class="mb-12 scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Skimming</h3>
+            <div class="card p-6">
+              <p class="leading-8 mb-3">
+                سرقة بيانات بطاقة الائتمان أو الخصم باستخدام جهاز غير قانوني
+                (Skimmer) يُركّب على نقاط البيع أو أجهزة الصراف، ثم استخدام هذه
+                البيانات بشكل احتيالي.
+              </p>
+              <div class="rounded-xl p-4" style="background: var(--bg)">
+                <p class="text-sm">
+                  مثال: جهاز صغير مثبت داخل فتحة كرت الصراف الآلي يقوم بنسخ
+                  بيانات البطاقة أثناء الاستخدام العادي دون أن يلاحظ المستخدم.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article id="l3-policy" class="scroll-mt-28">
+            <h3 class="text-xl font-bold mb-3">Information Security Policy</h3>
+            <div class="card p-6 mb-5">
+              <p class="leading-8">
+                مجموعة قواعد وإرشادات تضعها المنظمة للحفاظ على أمن المعلومات،
+                وتتكون من ثلاثة مستويات مترابطة.
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 items-stretch">
+              <div class="card p-5 flex-1 text-center">
+                <p class="text-xs font-bold muted mb-1">المستوى الأول</p>
+                <p class="font-bold">Basic Policy</p>
+                <p class="text-xs muted mt-1">الأهداف والمبادئ العامة</p>
+              </div>
+              <div class="flex items-center justify-center muted">
+                <i
+                  data-lucide="arrow-left"
+                  class="w-5 h-5 rotate-90 sm:rotate-0"
+                ></i>
+              </div>
+              <div class="card p-5 flex-1 text-center">
+                <p class="text-xs font-bold muted mb-1">المستوى الثاني</p>
+                <p class="font-bold">Security Standards</p>
+                <p class="text-xs muted mt-1">معايير تفصيلية للتطبيق</p>
+              </div>
+              <div class="flex items-center justify-center muted">
+                <i
+                  data-lucide="arrow-left"
+                  class="w-5 h-5 rotate-90 sm:rotate-0"
+                ></i>
+              </div>
+              <div class="card p-5 flex-1 text-center">
+                <p class="text-xs font-bold muted mb-1">المستوى الثالث</p>
+                <p class="font-bold">Procedures</p>
+                <p class="text-xs muted mt-1">خطوات تشغيلية يومية</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Lesson 3 Quiz CTA -->
+          <div
+            class="mt-8 p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm"
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(9, 99, 126, 0.08),
+                rgba(122, 178, 178, 0.15)
+              );
+              border-color: var(--border);
+            "
+          >
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow"
+                style="background: var(--primary)"
+              >
+                <i data-lucide="shield-alert" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-base">
+                  جاهز لاختبار معلوماتك في الدرس الثالث؟
+                </h4>
+                <p class="text-xs muted mt-0.5">
+                  يتضمن 45 سؤال اختيار من متعدد + 5 أسئلة مقالية تفاعلية (50
+                  سؤالاً)
+                </p>
+              </div>
+            </div>
+            <a
+              href="quiz.html?lesson=3"
+              class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white shrink-0 flex items-center gap-2 hover:opacity-90 transition-all shadow"
+              style="background: var(--primary)"
+            >
+              <span>بدء أسئلة الدرس الثالث (50 سؤال)</span>
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </section>
+
+        <!-- ============ COMPARISON ============ -->
+        <section id="comparison" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-6">مقارنة شاملة بين المفاهيم</h2>
+          <div class="card p-5 overflow-x-auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>المصطلح</th>
+                  <th>معناه</th>
+                  <th>مثال</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Phishing</td>
+                  <td>خداع المستخدم بموقع/رسالة مزيفة</td>
+                  <td>رسالة بنك مزيفة</td>
+                </tr>
+                <tr>
+                  <td>Social Engineering</td>
+                  <td>استغلال الإنسان نفسيًا</td>
+                  <td>اتصال مزيف</td>
+                </tr>
+                <tr>
+                  <td>Impersonation</td>
+                  <td>انتحال شخصية</td>
+                  <td>موظف IT مزيف</td>
+                </tr>
+                <tr>
+                  <td>Shoulder Surfing</td>
+                  <td>مراقبة إدخال البيانات</td>
+                  <td>مشاهدة PIN</td>
+                </tr>
+                <tr>
+                  <td>Dumpster Diving</td>
+                  <td>البحث في القمامة</td>
+                  <td>أوراق سرية</td>
+                </tr>
+                <tr>
+                  <td>Skimming</td>
+                  <td>سرقة بيانات البطاقة</td>
+                  <td>جهاز غير قانوني</td>
+                </tr>
+                <tr>
+                  <td>Malware</td>
+                  <td>برنامج ضار</td>
+                  <td>Trojan</td>
+                </tr>
+                <tr>
+                  <td>Unauthorized Access</td>
+                  <td>دخول بدون تصريح</td>
+                  <td>استخدام Password شخص آخر</td>
+                </tr>
+                <tr>
+                  <td>Authentication</td>
+                  <td>التحقق من الهوية</td>
+                  <td>Password</td>
+                </tr>
+                <tr>
+                  <td>Access Control</td>
+                  <td>تحديد الصلاحيات</td>
+                  <td>الطالب يرى درجاته فقط</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============ PRACTICAL EXAMPLES ============ -->
+        <section id="examples" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-2">أمثلة من الحياة اليومية</h2>
+          <p class="muted text-sm mb-6">
+            سيناريوهات واقعية مع المصطلح والسبب والحل
+          </p>
+          <div id="scenariosGrid" class="grid sm:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- ============ CONCEPT MAP ============ -->
+        <section id="map" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-2">خريطة المفاهيم</h2>
+          <p class="muted text-sm mb-6">
+            تربط المفاهيم الرئيسية في الدروس الثلاثة
+          </p>
+          <div class="card p-4 sm:p-6 overflow-x-auto">
+            <svg
+              id="conceptSvg"
+              viewBox="0 0 900 560"
+              class="w-full"
+              style="min-width: 640px"
+            ></svg>
+          </div>
+        </section>
+
+        <!-- ============ QUIZ ============ -->
+        <section id="quiz" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-2">اختبار سريع</h2>
+          <p class="muted text-sm mb-6">20 سؤالًا على الدروس الثلاثة</p>
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4 text-sm">
+              <span id="quizProgressLabel" class="font-semibold"
+                >السؤال 1 من 20</span
+              >
+              <span
+                id="quizScoreLabel"
+                class="font-semibold"
+                style="color: var(--primary)"
+                >النتيجة: 0</span
+              >
+            </div>
+            <div
+              class="w-full h-2 rounded-full overflow-hidden mb-6"
+              style="background: var(--border)"
+            >
+              <div
+                id="quizProgressBar"
+                class="h-full"
+                style="
+                  width: 5%;
+                  background: var(--primary);
+                  transition: width 0.3s;
+                "
+              ></div>
+            </div>
+            <p id="quizQuestion" class="font-bold text-lg mb-5 leading-8"></p>
+            <div id="quizOptions" class="space-y-3 mb-5"></div>
+            <div
+              id="quizExplanation"
+              class="hidden rounded-xl p-4 mb-5 text-sm leading-7"
+              style="background: var(--bg)"
+            ></div>
+            <div class="flex gap-3">
+              <button
+                id="quizCheck"
+                class="btn-primary font-bold px-5 py-2.5 rounded-xl focus-ring"
+              >
+                تحقق
+              </button>
+              <button
+                id="quizNext"
+                class="hidden card font-bold px-5 py-2.5 rounded-xl focus-ring"
+              >
+                السؤال التالي
+              </button>
+              <button
+                id="quizRestart"
+                class="hidden card font-bold px-5 py-2.5 rounded-xl focus-ring"
+              >
+                إعادة الاختبار
+              </button>
+            </div>
+            <div id="quizFinal" class="hidden text-center py-6">
+              <i
+                data-lucide="award"
+                class="w-14 h-14 mx-auto mb-3"
+                style="color: var(--primary)"
+              ></i>
+              <p class="text-2xl font-black mb-1" id="quizFinalScore"></p>
+              <p class="muted mb-5">
+                أحسنت! راجع أهم النقاط للحفظ بالأسفل لتثبيت المعلومة.
+              </p>
+              <button
+                id="quizRestart2"
+                class="btn-primary font-bold px-6 py-3 rounded-xl focus-ring"
+              >
+                إعادة الاختبار
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ FLASHCARDS ============ -->
+        <section id="flashcards" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-2">بطاقات المصطلحات</h2>
+          <p class="muted text-sm mb-6">
+            اضغط على البطاقة لقلبها ومشاهدة الإجابة
+          </p>
+          <div
+            id="flashGrid"
+            class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          ></div>
+        </section>
+
+        <!-- ============ IMPORTANT FOR EXAM ============ -->
+        <section id="exam" class="mb-16 scroll-mt-28">
+          <h2 class="section-title mb-6">
+            أهم النقاط التي لا يأتي منها الامتحان بدون ما تعرفها
+          </h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="card p-5">
+              <h4 class="font-bold mb-3 flex items-center gap-2">
+                <i
+                  data-lucide="triangle"
+                  class="w-4 h-4"
+                  style="color: var(--primary)"
+                ></i
+                >CIA
+              </h4>
+              <ul class="text-sm space-y-1.5 muted">
+                <li>Confidentiality = السرية</li>
+                <li>Integrity = السلامة</li>
+                <li>Availability = التوافر</li>
+              </ul>
+            </div>
+            <div class="card p-5">
+              <h4 class="font-bold mb-3 flex items-center gap-2">
+                <i
+                  data-lucide="bug"
+                  class="w-4 h-4"
+                  style="color: var(--primary)"
+                ></i
+                >Malware
+              </h4>
+              <ul class="text-sm space-y-1.5 muted">
+                <li>Virus</li>
+                <li>Trojan</li>
+                <li>Worm</li>
+                <li>Spyware</li>
+                <li>Keylogger</li>
+                <li>Adware</li>
+                <li>Ransomware</li>
+              </ul>
+            </div>
+            <div class="card p-5">
+              <h4 class="font-bold mb-3 flex items-center gap-2">
+                <i
+                  data-lucide="key-round"
+                  class="w-4 h-4"
+                  style="color: var(--primary)"
+                ></i
+                >Authentication
+              </h4>
+              <ul class="text-sm space-y-1.5 muted">
+                <li>Knowledge</li>
+                <li>Possession</li>
+                <li>Biometric</li>
+                <li>2FA</li>
+                <li>Two-Step</li>
+              </ul>
+            </div>
+            <div class="card p-5">
+              <h4 class="font-bold mb-3 flex items-center gap-2">
+                <i
+                  data-lucide="shield-check"
+                  class="w-4 h-4"
+                  style="color: var(--primary)"
+                ></i
+                >Protection
+              </h4>
+              <ul class="text-sm space-y-1.5 muted">
+                <li>Access Control</li>
+                <li>Firewall</li>
+                <li>Antivirus</li>
+                <li>Updates</li>
+                <li>Backup</li>
+              </ul>
+            </div>
+            <div class="card p-5 sm:col-span-2 lg:col-span-1">
+              <h4 class="font-bold mb-3 flex items-center gap-2">
+                <i
+                  data-lucide="user-x"
+                  class="w-4 h-4"
+                  style="color: var(--primary)"
+                ></i
+                >Fraud
+              </h4>
+              <ul class="text-sm space-y-1.5 muted">
+                <li>Fraudulent Billing</li>
+                <li>One-click Fraud</li>
+                <li>Phishing</li>
+                <li>Social Engineering</li>
+                <li>Impersonation</li>
+                <li>Shoulder Surfing</li>
+                <li>Dumpster Diving</li>
+                <li>Skimming</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <button
+      id="backToTop"
+      class="hidden fixed bottom-6 left-6 w-11 h-11 rounded-full items-center justify-center shadow-lg z-40 btn-primary focus-ring"
+    >
+      <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <footer
+      class="border-t mt-10 py-8 text-center"
+      style="border-color: var(--border)"
+    >
+      <p class="font-bold text-sm">دراسة المعلومات — أمن المعلومات</p>
+      <p class="text-xs muted mt-1">Designed for educational use</p>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      /* ============ THEME ============ */
+      const root = document.documentElement;
+      const darkToggle = document.getElementById("darkToggle");
+      const darkIcon = document.getElementById("darkIcon");
+      function setTheme(t) {
+        root.setAttribute("data-theme", t);
+        localStorage.setItem("theme", t);
+        darkIcon.setAttribute("data-lucide", t === "dark" ? "sun" : "moon");
+        lucide.createIcons();
+      }
+      setTheme(localStorage.getItem("theme") || "light");
+      darkToggle.addEventListener("click", () =>
+        setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"),
+      );
+
+      /* ============ SIDEBAR (mobile & responsive) ============ */
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebarOverlay");
+      const sidebarToggle = document.getElementById("sidebarToggle");
+      const sidebarClose = document.getElementById("sidebarClose");
+      const sidebarFilter = document.getElementById("sidebarFilter");
+
+      function openSidebar() {
+        sidebar.classList.remove("translate-x-full");
+        sidebar.classList.add("translate-x-0");
+        overlay.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "true");
+      }
+      function closeSidebar() {
+        sidebar.classList.add("translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+        overlay.classList.add("hidden");
+        document.body.style.overflow = "";
+        if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener("click", () => {
+          const isClosed = sidebar.classList.contains("translate-x-full");
+          isClosed ? openSidebar() : closeSidebar();
+        });
+      }
+      if (sidebarClose) {
+        sidebarClose.addEventListener("click", closeSidebar);
+      }
+      if (overlay) {
+        overlay.addEventListener("click", closeSidebar);
+      }
+
+      sidebar.querySelectorAll("a.sidebar-link").forEach((a) =>
+        a.addEventListener("click", () => {
+          if (window.innerWidth < 1024) closeSidebar();
+        }),
+      );
+
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          !sidebar.classList.contains("translate-x-full") &&
+          window.innerWidth < 1024
+        ) {
+          closeSidebar();
+        }
+      });
+
+      /* ============ SIDEBAR FILTER ============ */
+      if (sidebarFilter) {
+        sidebarFilter.addEventListener("input", () => {
+          const val = sidebarFilter.value.trim().toLowerCase();
+          const links = sidebar.querySelectorAll(".sidebar-link");
+          const sections = sidebar.querySelectorAll(".sidebar-section");
+
+          links.forEach((link) => {
+            const text = link.textContent.toLowerCase();
+            const matches = text.includes(val);
+            link.style.display = matches ? "flex" : "none";
+          });
+
+          sections.forEach((sec) => {
+            const visibleLinks = sec.querySelectorAll(
+              '.sidebar-link[style*="display: flex"], .sidebar-link:not([style*="display: none"])',
+            );
+            sec.style.display = visibleLinks.length > 0 ? "block" : "none";
+          });
+        });
+      }
+
+      /* ============ SCROLL PROGRESS + ACTIVE LINK + BACK TO TOP ============ */
+      const scrollbar = document.getElementById("scrollbar");
+      const progressBar = document.getElementById("progressBar");
+      const progressLabel = document.getElementById("progressLabel");
+      const backToTop = document.getElementById("backToTop");
+      const sideLinks = [...document.querySelectorAll(".sidebar-link")];
+      const anchors = sideLinks
+        .map((a) => document.querySelector(a.getAttribute("href")))
+        .filter(Boolean);
+
+      let lastActiveLink = null;
+      function onScroll() {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        scrollbar.style.width = pct + "%";
+        progressBar.style.width = pct + "%";
+        progressLabel.textContent = Math.round(pct) + "%";
+        backToTop.classList.toggle("hidden", h.scrollTop < 500);
+        backToTop.classList.toggle("flex", h.scrollTop >= 500);
+
+        let current = anchors[0];
+        const y = h.scrollTop + 140;
+        anchors.forEach((el) => {
+          if (el.offsetTop <= y) current = el;
+        });
+
+        if (current) {
+          const link = sideLinks.find(
+            (a) => a.getAttribute("href") === "#" + current.id,
+          );
+          if (link && link !== lastActiveLink) {
+            sideLinks.forEach((a) => a.classList.remove("active"));
+            link.classList.add("active");
+            lastActiveLink = link;
+
+            // Auto-scroll sidebar if link is out of view inside sidebar nav
+            const sideNav = document.getElementById("sideNav");
+            if (
+              sideNav &&
+              (window.innerWidth >= 1024 ||
+                !sidebar.classList.contains("translate-x-full"))
+            ) {
+              const navTop = sideNav.scrollTop;
+              const navBottom = navTop + sideNav.clientHeight;
+              const linkTop = link.offsetTop;
+              const linkBottom = linkTop + link.clientHeight;
+
+              if (linkTop < navTop + 20 || linkBottom > navBottom - 20) {
+                link.scrollIntoView({ block: "nearest", behavior: "smooth" });
+              }
+            }
+          }
+        }
+      }
+      document.addEventListener("scroll", onScroll);
+      onScroll();
+      backToTop.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
+
+      /* ============ DATA ============ */
+      const malwareData = [
+        {
+          name: "Virus",
+          en: "Computer Virus",
+          def: "برنامج مصمم لإحداث ضرر مثل تدمير البيانات أو إتلاف البرامج، ويحتاج لملف مضيف لينتشر.",
+          example: "فتح ملف مرفق مصاب يؤدي لحذف ملفات الجهاز تلقائيًا.",
+          icon: "biohazard",
+        },
+        {
+          name: "Trojan Horse",
+          en: "Trojan",
+          def: "برنامج ضار متنكر في شكل برنامج شرعي يبدو مفيدًا أو ممتعًا.",
+          example:
+            "ملف باسم Free Game.exe يبدو لعبة لكنه يحتوي على كود ضار يسرق البيانات.",
+          icon: "package-x",
+        },
+        {
+          name: "Worm",
+          en: "Worm",
+          def: "برنامج ينسخ نفسه وينتشر عبر الشبكات من جهاز لآخر دون تدخل المستخدم.",
+          example:
+            "ينتقل عبر الشبكة المدرسية ليصيب كل الأجهزة المتصلة بها تلقائيًا.",
+          icon: "git-branch",
+        },
+        {
+          name: "Spyware",
+          en: "Spyware",
+          def: "برنامج يجمع معلومات عن المستخدم دون علمه ويرسلها لطرف آخر.",
+          example:
+            "برنامج يراقب المواقع التي يزورها المستخدم ويرسل التقارير لجهة خارجية.",
+          icon: "eye",
+        },
+        {
+          name: "Keylogger",
+          en: "Keylogger",
+          def: "برنامج يسجل كل ضغطات لوحة المفاتيح التي يكتبها المستخدم.",
+          example:
+            "تسجيل كتابة Username وPassword أثناء تسجيل الدخول وإرسالها للمهاجم.",
+          icon: "keyboard",
+        },
+        {
+          name: "Adware",
+          en: "Adware",
+          def: "برنامج يعرض إعلانات غير مرغوب فيها بشكل متكرر ومزعج.",
+          example:
+            "نوافذ إعلانية تظهر باستمرار أثناء تصفح الإنترنت أو استخدام تطبيق.",
+          icon: "megaphone",
+        },
+        {
+          name: "Ransomware",
+          en: "Ransomware",
+          def: "برنامج يجعل البيانات غير قابلة للوصول (بتشفيرها غالبًا) ويطلب فدية مقابل استرجاعها.",
+          example:
+            "ملفات المدرسة تصبح غير قابلة للفتح وتظهر رسالة تطلب الدفع لفك التشفير.",
+          icon: "lock-keyhole",
+        },
+      ];
+      const malwareGrid = document.getElementById("malwareGrid");
+      malwareData.forEach((m) => {
+        malwareGrid.innerHTML += `
+  <div class="card p-5">
+    <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style="background:rgba(220,38,38,.08);">
+      <i data-lucide="${m.icon}" class="w-5 h-5" style="color:var(--danger);"></i>
+    </div>
+    <h4 class="font-bold mb-1">${m.name} <span class="muted font-normal text-sm">— ${m.en}</span></h4>
+    <p class="text-sm leading-7 mb-2">${m.def}</p>
+    <p class="text-xs muted"><strong>مثال:</strong> ${m.example}</p>
+  </div>`;
+      });
+      const malwareTbody = document.querySelector("#malwareTable tbody");
+      const shortActions = {
+        Virus: "يسبب ضررًا",
+        "Trojan Horse": "متنكر في شكل شرعي",
+        Worm: "ينسخ نفسه وينتشر",
+        Spyware: "يجمع المعلومات",
+        Keylogger: "يسجل ضغطات المفاتيح",
+        Adware: "يعرض إعلانات",
+        Ransomware: "يمنع الوصول للبيانات ويطلب فدية",
+      };
+      malwareData.forEach((m) => {
+        malwareTbody.innerHTML += `<tr><td>${m.name}</td><td>${shortActions[m.name]}</td></tr>`;
+      });
+
+      /* Case study (Lesson 1) */
+      const caseStudies = [
+        {
+          q: "الموقع توقف بسبب هجوم إلكتروني",
+          ans: "Availability",
+          exp: "النظام لم يعد متاحًا للمستخدمين عند الحاجة إليه، وهذا يمس عنصر التوافرية.",
+        },
+        {
+          q: "شخص غيّر درجات الطلاب بدون إذن",
+          ans: "Integrity",
+          exp: "تم التلاعب بصحة البيانات دون تصريح، وهذا يمس عنصر السلامة/التكامل.",
+        },
+        {
+          q: "شخص غير مصرح له شاهد الدرجات",
+          ans: "Confidentiality",
+          exp: "اطّلع شخص غير مخوّل على بيانات سرية، وهذا يمس عنصر السرية.",
+        },
+        {
+          q: "برنامج مزيف يحتوي على كود ضار",
+          ans: "Trojan",
+          exp: "برنامج متنكر في شكل شرعي (مثل لعبة) لكنه يحمل كودًا ضارًا بداخله.",
+        },
+        {
+          q: "برنامج يسجل ما يكتبه المستخدم",
+          ans: "Keylogger",
+          exp: "يسجل ضغطات لوحة المفاتيح مثل كلمات المرور المكتوبة ويرسلها للمهاجم.",
+        },
+        {
+          q: "ملفات تم قفلها وطُلبت فدية لفتحها",
+          ans: "Ransomware",
+          exp: "برنامج يمنع الوصول إلى البيانات ويطلب دفع مبلغ مالي لاستعادتها.",
+        },
+      ];
+      const caseGrid = document.getElementById("caseStudyGrid");
+      caseStudies.forEach((c, i) => {
+        caseGrid.innerHTML += `
+  <button class="case-btn card p-5 text-right focus-ring" data-i="${i}">
+    <p class="text-sm font-semibold mb-2">${c.q}</p>
+    <p class="text-xs muted flex items-center gap-1">اضغط لمعرفة الإجابة <i data-lucide="chevron-left" class="w-3 h-3"></i></p>
+    <div class="case-answer hidden mt-3 pt-3 border-t text-sm" style="border-color:var(--border);">
+      <p class="font-bold mb-1" style="color:var(--primary);">${c.ans}</p>
+      <p class="muted leading-6">${c.exp}</p>
+    </div>
+  </button>`;
+      });
+      document.querySelectorAll(".case-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.querySelector(".case-answer").classList.toggle("hidden");
+        });
+      });
+
+      /* Practical everyday scenarios */
+      const scenarios = [
+        {
+          t: "حد شاف Password شخص آخر بالصدفة",
+          term: "Confidentiality Breach",
+          reason: "تم الاطلاع على معلومة سرية دون تصريح.",
+          fix: "تغيير كلمة المرور فورًا وعدم مشاركتها مع أحد.",
+        },
+        {
+          t: "حد غيّر درجة طالب في السيستم",
+          term: "Integrity Violation",
+          reason: "تم تعديل بيانات دون إذن رسمي.",
+          fix: "استخدام صلاحيات وصول محددة (Access Control) وتسجيل كل تعديل.",
+        },
+        {
+          t: "موقع النتائج توقف عن العمل فجأة",
+          term: "Availability Failure",
+          reason: "انقطاع الخدمة يمنع الوصول للنظام وقت الحاجة.",
+          fix: "استخدام أنظمة حماية من الهجمات وخطط استمرارية للخدمة.",
+        },
+        {
+          t: "لعبة مجانية تحتوي كود ضار بداخلها",
+          term: "Trojan Horse",
+          reason: "برنامج ضار يتنكر في شكل تطبيق شرعي.",
+          fix: "تحميل البرامج من مصادر رسمية موثوقة فقط.",
+        },
+        {
+          t: "برنامج يسجل كل ما يكتبه المستخدم",
+          term: "Keylogger",
+          reason: "تسجيل ضغطات لوحة المفاتيح لسرقة بيانات حساسة.",
+          fix: "استخدام برنامج Antivirus محدث باستمرار.",
+        },
+        {
+          t: "رسالة تدّعي أنها من البنك وتطلب بياناتك",
+          term: "Phishing",
+          reason: "محاولة انتحال هوية جهة موثوقة لسرقة البيانات.",
+          fix: "عدم الضغط على الروابط المشبوهة والتحقق من المصدر مباشرة.",
+        },
+        {
+          t: "شخص يتصل ويدّعي أنه موظف IT",
+          term: "Impersonation",
+          reason: "انتحال شخصية لكسب الثقة والحصول على معلومات.",
+          fix: "التحقق من هوية المتصل رسميًا قبل مشاركة أي بيانات.",
+        },
+        {
+          t: "شخص يقف خلفك ويراقب كتابتك لـ PIN",
+          term: "Shoulder Surfing",
+          reason: "مراقبة بصرية مباشرة أثناء إدخال بيانات حساسة.",
+          fix: "تغطية لوحة المفاتيح عند إدخال الأرقام السرية.",
+        },
+        {
+          t: "شخص يبحث في سلة المهملات عن أوراق مهمة",
+          term: "Dumpster Diving",
+          reason: "البحث في المخلفات عن معلومات سرية لم تُتلف جيدًا.",
+          fix: "تمزيق أو إتلاف الأوراق التي تحتوي على بيانات حساسة قبل التخلص منها.",
+        },
+      ];
+      const scGrid = document.getElementById("scenariosGrid");
+      scenarios.forEach((s) => {
+        scGrid.innerHTML += `
+  <div class="card p-5">
+    <p class="text-sm font-bold mb-3">${s.t}</p>
+    <div class="space-y-1.5 text-xs">
+      <p><span class="muted">المصطلح: </span><span class="font-semibold" style="color:var(--primary);">${s.term}</span></p>
+      <p><span class="muted">السبب: </span>${s.reason}</p>
+      <p><span class="muted">الحل: </span>${s.fix}</p>
+    </div>
+  </div>`;
+      });
+
+      /* ============ CONCEPT MAP (SVG) ============ */
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.getElementById("conceptSvg");
+      const centerX = 450,
+        centerY = 280;
+      const branches = [
+        {
+          label: "CIA",
+          angle: 270,
+          children: ["Confidentiality", "Integrity", "Availability"],
+        },
+        {
+          label: "Malware",
+          angle: 330,
+          children: ["Virus", "Trojan", "Worm", "Spyware", "Ransomware"],
+        },
+        {
+          label: "Authentication",
+          angle: 30,
+          children: ["Knowledge", "Possession", "Biometric"],
+        },
+        {
+          label: "Access Control",
+          angle: 90,
+          children: ["Firewall", "Antivirus", "Backup"],
+        },
+        {
+          label: "Fraud",
+          angle: 150,
+          children: ["Phishing", "Skimming", "One-click"],
+        },
+        {
+          label: "Social Engineering",
+          angle: 210,
+          children: ["Impersonation", "Shoulder Surfing", "Dumpster Diving"],
+        },
+      ];
+      function polar(cx, cy, r, angleDeg) {
+        const a = ((angleDeg - 90) * Math.PI) / 180;
+        return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+      }
+      function addLine(x1, y1, x2, y2, color) {
+        const l = document.createElementNS(svgNS, "line");
+        l.setAttribute("x1", x1);
+        l.setAttribute("y1", y1);
+        l.setAttribute("x2", x2);
+        l.setAttribute("y2", y2);
+        l.setAttribute("stroke", color || "#CBD5E1");
+        l.setAttribute("stroke-width", "1.5");
+        svg.appendChild(l);
+      }
+      function addNode(x, y, text, opts = {}) {
+        const g = document.createElementNS(svgNS, "g");
+        const w = Math.max(70, text.length * 7.5 + 24);
+        const h = opts.main ? 44 : 32;
+        const rect = document.createElementNS(svgNS, "rect");
+        rect.setAttribute("x", x - w / 2);
+        rect.setAttribute("y", y - h / 2);
+        rect.setAttribute("width", w);
+        rect.setAttribute("height", h);
+        rect.setAttribute("rx", 10);
+        rect.setAttribute(
+          "fill",
+          opts.main ? "var(--primary)" : "var(--surface)",
+        );
+        rect.setAttribute(
+          "stroke",
+          opts.main ? "var(--primary)" : "var(--border)",
+        );
+        g.appendChild(rect);
+        const t = document.createElementNS(svgNS, "text");
+        t.setAttribute("x", x);
+        t.setAttribute("y", y + 5);
+        t.setAttribute("text-anchor", "middle");
+        t.setAttribute("font-size", opts.main ? "15" : "12.5");
+        t.setAttribute("font-weight", opts.main ? "800" : "600");
+        t.setAttribute("fill", opts.main ? "#fff" : "var(--text)");
+        t.setAttribute("font-family", "Cairo,sans-serif");
+        t.textContent = text;
+        g.appendChild(t);
+        svg.appendChild(g);
+        return w;
+      }
+      addNode(centerX, centerY, "Information Security", { main: true });
+      branches.forEach((b) => {
+        const [bx, by] = polar(centerX, centerY, 150, b.angle);
+        addLine(centerX, centerY, bx, by);
+        addNode(bx, by, b.label);
+        const spread = 46;
+        b.children.forEach((c, i) => {
+          const offset = (i - (b.children.length - 1) / 2) * spread;
+          const [cx, cy] = polar(bx, by, 95, b.angle);
+          const fx = cx + Math.cos((b.angle * Math.PI) / 180) * offset * 0;
+          const fy = cy;
+          const px = cx + Math.sin((b.angle * Math.PI) / 180) * offset * 1.0;
+          const py =
+            cy -
+            Math.cos((b.angle * Math.PI) / 180) * offset * 1.0 * 0 +
+            (i - (b.children.length - 1) / 2) * 30;
+          const leafX =
+            bx +
+            (cx - bx) +
+            Math.sin((b.angle * Math.PI) / 180 + Math.PI / 2) * offset;
+          const leafY =
+            by +
+            (cy - by) +
+            Math.cos((b.angle * Math.PI) / 180 + Math.PI / 2) * -offset;
+          addLine(bx, by, leafX, leafY, "#DDE6EC");
+          addNode(leafX, leafY, c);
+        });
+      });
+
+      /* ============ QUIZ ============ */
+      const quizData = [
+        {
+          q: "ما هو أول عنصر في CIA Triad الذي يضمن اطلاع الأشخاص المصرح لهم فقط على المعلومات؟",
+          opts: [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "Authentication",
+          ],
+          correct: 0,
+          exp: "Confidentiality (السرية) تعني أن المعلومات يراها الأشخاص المصرح لهم فقط.",
+        },
+        {
+          q: "موقع المدرسة توقف أثناء إعلان النتائج بسبب هجوم إلكتروني. أي عنصر من CIA تعرض للخطر؟",
+          opts: [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "Access Control",
+          ],
+          correct: 2,
+          exp: "توقف الموقع يعني عدم القدرة على الوصول إليه وقت الحاجة، وهذا يمس التوافرية (Availability).",
+        },
+        {
+          q: "تم تغيير درجة طالب من 18 إلى 20 دون تصريح. أي عنصر تأثر؟",
+          opts: ["Availability", "Integrity", "Confidentiality", "Backup"],
+          correct: 1,
+          exp: "تعديل البيانات دون تصريح يمس السلامة/التكامل (Integrity).",
+        },
+        {
+          q: "الدخول إلى نظام أو جهاز بدون الحصول على إذن يسمى:",
+          opts: ["Cracking", "Unauthorized Access", "Phishing", "Skimming"],
+          correct: 1,
+          exp: "Unauthorized Access هو الدخول إلى نظام دون إذن.",
+        },
+        {
+          q: "الشخص الذي يقوم بالوصول غير القانوني للنظام بهدف سرقة أو حذف أو التلاعب بالبيانات يسمى:",
+          opts: ["Hacker فقط", "Cracker", "Admin", "User"],
+          correct: 1,
+          exp: "يُطلق على هذا الشخص اسم Cracker وفعله يسمى Cracking.",
+        },
+        {
+          q: "برنامج يتنكر في شكل تطبيق أو لعبة شرعية بينما يحمل كودًا ضارًا بداخله:",
+          opts: ["Worm", "Trojan Horse", "Adware", "Spyware"],
+          correct: 1,
+          exp: "Trojan Horse يبدو برنامجًا مفيدًا لكنه يخفي كودًا ضارًا.",
+        },
+        {
+          q: "أي برنامج خبيث ينسخ نفسه وينتشر عبر الشبكات دون الحاجة لملف مضيف؟",
+          opts: ["Virus", "Worm", "Trojan", "Keylogger"],
+          correct: 1,
+          exp: "الـ Worm ينسخ نفسه وينتشر تلقائيًا عبر الشبكة.",
+        },
+        {
+          q: "طالب لاحظ أن ملفات المدرسة أصبحت مشفرة ويطلب النظام دفع مبلغ لفتحها. ما اسم هذا البرنامج؟",
+          opts: ["Adware", "Spyware", "Ransomware", "Worm"],
+          correct: 2,
+          exp: "Ransomware يمنع الوصول للبيانات ويطلب فدية لاستعادتها.",
+        },
+        {
+          q: "برنامج يسجل كل ما يكتبه المستخدم على لوحة المفاتيح مثل كلمات المرور يسمى:",
+          opts: ["Keylogger", "Adware", "Firewall", "OTP"],
+          correct: 0,
+          exp: "Keylogger يسجل ضغطات لوحة المفاتيح ويرسلها للمهاجم.",
+        },
+        {
+          q: "كلمة مرور تُستخدم مرة واحدة فقط أو لفترة محدودة ثم تصبح غير صالحة:",
+          opts: ["Password", "OTP", "PIN", "Username"],
+          correct: 1,
+          exp: "OTP تعني One-Time Password، وهي صالحة لاستخدام واحد أو مدة محدودة.",
+        },
+        {
+          q: "استخدام بصمة الإصبع للدخول إلى الهاتف يُعد مثالًا على أي نوع من المصادقة؟",
+          opts: [
+            "Knowledge-based",
+            "Possession-based",
+            "Biometric",
+            "Two-Step",
+          ],
+          correct: 2,
+          exp: "بصمة الإصبع من الخصائص الجسدية، وتُصنَّف ضمن Biometric Authentication.",
+        },
+        {
+          q: "مستخدم يدخل كلمة المرور ثم يستلم كود عبر رسالة SMS. هذا مثال على:",
+          opts: [
+            "Two-Step Authentication",
+            "Two-Factor Authentication (2FA)",
+            "Access Control",
+            "Firewall",
+          ],
+          correct: 1,
+          exp: "كلمة المرور (Knowledge) + كود SMS (Possession) = عاملان مختلفان، أي 2FA.",
+        },
+        {
+          q: "مستخدم يدخل كلمة مرور ثم يجيب عن سؤال أمني (كلاهما معلومة يعرفها). هذا مثال على:",
+          opts: [
+            "Two-Factor Authentication",
+            "Two-Step Authentication",
+            "Biometric Authentication",
+            "Ransomware",
+          ],
+          correct: 1,
+          exp: "كلا العاملين من نوع Knowledge، لذلك هذا Two-Step وليس 2FA.",
+        },
+        {
+          q: "أي نظام يعمل كحارس على بوابة الشبكة ويتحكم في حركة البيانات الداخلة والخارجة؟",
+          opts: ["Antivirus", "Firewall", "Backup", "OTP"],
+          correct: 1,
+          exp: "Firewall يراقب حركة البيانات ويمنع الوصول غير المصرح به.",
+        },
+        {
+          q: "تحديد أن المدرّس يمكنه رؤية درجات الطلاب بينما الطالب يرى درجاته فقط، هذا مثال على:",
+          opts: ["Access Control", "Backup", "Antivirus", "Phishing"],
+          correct: 0,
+          exp: "Access Control يحدد من يستطيع الوصول إلى ماذا داخل النظام.",
+        },
+        {
+          q: "وصلت رسالة تدّعي أنها من البنك وتطلب الضغط على رابط لتحديث بياناتك. هذا مثال على:",
+          opts: ["Skimming", "Phishing", "Dumpster Diving", "Cracking"],
+          correct: 1,
+          exp: "هذا مثال كلاسيكي على Phishing: رسالة مزيفة تنتحل جهة موثوقة.",
+        },
+        {
+          q: "شخص يتصل بالموظفين مدّعيًا أنه من الدعم الفني للحصول على كلمات المرور، هذا يسمى:",
+          opts: [
+            "Skimming",
+            "Shoulder Surfing",
+            "Impersonation",
+            "Fraudulent Billing",
+          ],
+          correct: 2,
+          exp: "التظاهر بأنه شخص آخر لكسب الثقة يسمى Impersonation.",
+        },
+        {
+          q: "مراقبة شخص أثناء إدخاله رقم PIN في جهاز الصراف الآلي تسمى:",
+          opts: ["Shoulder Surfing", "Dumpster Diving", "Skimming", "Phishing"],
+          correct: 0,
+          exp: "مراقبة إدخال البيانات مباشرة تسمى Shoulder Surfing.",
+        },
+        {
+          q: "استخدام جهاز غير قانوني لنسخ بيانات بطاقة ائتمان عند استخدامها في جهاز صراف آلي يسمى:",
+          opts: ["Skimming", "Impersonation", "Adware", "Backup"],
+          correct: 0,
+          exp: "Skimming هو سرقة بيانات البطاقة عبر جهاز غير قانوني.",
+        },
+        {
+          q: "المستوى الذي يحدد الأهداف والمبادئ العامة ضمن Information Security Policy هو:",
+          opts: [
+            "Procedures",
+            "Security Standards",
+            "Basic Policy",
+            "Access Control",
+          ],
+          correct: 2,
+          exp: "Basic Policy هو المستوى الأول ويحدد الأهداف والمبادئ العامة.",
+        },
+      ];
+      let qIndex = 0,
+        qScore = 0,
+        qAnswered = false;
+      const quizQuestion = document.getElementById("quizQuestion");
+      const quizOptions = document.getElementById("quizOptions");
+      const quizExplanation = document.getElementById("quizExplanation");
+      const quizCheck = document.getElementById("quizCheck");
+      const quizNext = document.getElementById("quizNext");
+      const quizRestart = document.getElementById("quizRestart");
+      const quizRestart2 = document.getElementById("quizRestart2");
+      const quizFinal = document.getElementById("quizFinal");
+      const quizBody = document.querySelectorAll(
+        "#quiz .card > div:not(#quizFinal)",
+      );
+      let selectedOpt = null;
+
+      function renderQuiz() {
+        quizFinal.classList.add("hidden");
+        document.getElementById("quizProgressLabel").textContent =
+          `السؤال ${qIndex + 1} من ${quizData.length}`;
+        document.getElementById("quizScoreLabel").textContent =
+          `النتيجة: ${qScore}`;
+        document.getElementById("quizProgressBar").style.width =
+          (qIndex / quizData.length) * 100 + 5 + "%";
+        const cur = quizData[qIndex];
+        quizQuestion.textContent = cur.q;
+        quizOptions.innerHTML = "";
+        selectedOpt = null;
+        qAnswered = false;
+        quizExplanation.classList.add("hidden");
+        quizNext.classList.add("hidden");
+        quizCheck.classList.remove("hidden");
+        quizCheck.disabled = false;
+        cur.opts.forEach((opt, i) => {
+          const b = document.createElement("button");
+          b.className =
+            "quiz-opt w-full text-right px-4 py-3 rounded-xl text-sm focus-ring";
+          b.textContent = opt;
+          b.addEventListener("click", () => {
+            if (qAnswered) return;
+            quizOptions
+              .querySelectorAll(".quiz-opt")
+              .forEach((o) => o.classList.remove("ring-2"));
+            b.style.borderColor = "var(--secondary)";
+            quizOptions
+              .querySelectorAll("button")
+              .forEach((x) => (x.dataset.sel = ""));
+            b.dataset.sel = "1";
+            selectedOpt = i;
+          });
+          quizOptions.appendChild(b);
+        });
+      }
+      quizCheck.addEventListener("click", () => {
+        if (selectedOpt === null || qAnswered) return;
+        qAnswered = true;
+        const cur = quizData[qIndex];
+        const btns = quizOptions.querySelectorAll("button");
+        btns.forEach((b, i) => {
+          if (i === cur.correct) b.classList.add("correct");
+          else if (i === selectedOpt) b.classList.add("wrong");
+        });
+        if (selectedOpt === cur.correct) qScore++;
+        document.getElementById("quizScoreLabel").textContent =
+          `النتيجة: ${qScore}`;
+        quizExplanation.textContent = cur.exp;
+        quizExplanation.classList.remove("hidden");
+        quizCheck.classList.add("hidden");
+        quizNext.classList.remove("hidden");
+        quizNext.textContent =
+          qIndex === quizData.length - 1
+            ? "عرض النتيجة النهائية"
+            : "السؤال التالي";
+      });
+      quizNext.addEventListener("click", () => {
+        qIndex++;
+        if (qIndex >= quizData.length) {
+          document.getElementById("quizProgressBar").style.width = "100%";
+          quizQuestion.textContent = "";
+          quizOptions.innerHTML = "";
+          quizExplanation.classList.add("hidden");
+          quizNext.classList.add("hidden");
+          quizCheck.classList.add("hidden");
+          quizFinal.classList.remove("hidden");
+          document.getElementById("quizFinalScore").textContent =
+            `نتيجتك: ${qScore} من ${quizData.length}`;
+          document.getElementById("quizProgressLabel").textContent =
+            "انتهى الاختبار";
+        } else {
+          renderQuiz();
+        }
+      });
+      function restartQuiz() {
+        qIndex = 0;
+        qScore = 0;
+        renderQuiz();
+      }
+      quizRestart.addEventListener("click", restartQuiz);
+      quizRestart2.addEventListener("click", restartQuiz);
+      renderQuiz();
+
+      /* ============ FLASHCARDS ============ */
+      const flashData = [
+        {
+          f: "ما هو Ransomware؟",
+          b: "برنامج يجعل البيانات غير قابلة للوصول ويطلب فدية.",
+        },
+        { f: "ما هو Trojan Horse؟", b: "برنامج ضار متنكر في شكل برنامج شرعي." },
+        {
+          f: "ما هو Worm؟",
+          b: "برنامج ينسخ نفسه وينتشر عبر الشبكات تلقائيًا.",
+        },
+        {
+          f: "ما هو Spyware؟",
+          b: "برنامج يجمع معلومات عن المستخدم دون علمه ويرسلها لطرف آخر.",
+        },
+        {
+          f: "ما هو Keylogger؟",
+          b: "برنامج يسجل ضغطات لوحة المفاتيح التي يكتبها المستخدم.",
+        },
+        {
+          f: "ما هو Confidentiality؟",
+          b: "ضمان اطلاع الأشخاص المصرح لهم فقط على المعلومات.",
+        },
+        {
+          f: "ما هو Integrity؟",
+          b: "بقاء المعلومات صحيحة دون تعديل أو عبث غير مصرح به.",
+        },
+        {
+          f: "ما هو Availability؟",
+          b: "إتاحة النظام أو المعلومة عند الحاجة إليها.",
+        },
+        {
+          f: "ما هو OTP؟",
+          b: "كلمة مرور تُستخدم مرة واحدة أو لفترة محدودة ثم تصبح غير صالحة.",
+        },
+        {
+          f: "ما هو Two-Factor Authentication؟",
+          b: "استخدام عاملين مختلفين من عوامل المصادقة معًا، مثل Password + SMS.",
+        },
+        {
+          f: "ما هو Firewall؟",
+          b: "نظام يعمل كحارس على بوابة الشبكة ويتحكم في حركة البيانات ويمنع الوصول غير المصرح به.",
+        },
+        {
+          f: "ما هو Phishing؟",
+          b: "خداع المستخدم برسائل أو مواقع مزيفة لسرقة بياناته الحساسة.",
+        },
+        {
+          f: "ما هو Social Engineering؟",
+          b: "التلاعب النفسي بالأشخاص لدفعهم للكشف عن معلومات سرية.",
+        },
+        {
+          f: "ما هو Shoulder Surfing؟",
+          b: "مراقبة شخص أثناء كتابته لكلمة المرور أو رقم PIN.",
+        },
+        {
+          f: "ما هو Skimming؟",
+          b: "سرقة بيانات بطاقة ائتمان باستخدام جهاز غير قانوني واستخدامها احتياليًا.",
+        },
+      ];
+      const flashGrid = document.getElementById("flashGrid");
+      flashData.forEach((c, i) => {
+        const el = document.createElement("div");
+        el.className = "flip-card h-40 focus-ring";
+        el.tabIndex = 0;
+        el.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face card" style="background:var(--surface);"><p class="font-bold text-sm leading-7">${c.f}</p></div>
+      <div class="flip-face flip-back" style="background:var(--primary);"><p class="text-white text-sm leading-7">${c.b}</p></div>
+    </div>`;
+        el.addEventListener("click", () => el.classList.toggle("flipped"));
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            el.classList.toggle("flipped");
+          }
+        });
+        flashGrid.appendChild(el);
+      });
+
+      /* ============ SEARCH ============ */
+      const searchIndex = [
+        { t: "Virus", id: "l1-malware" },
+        { t: "Trojan Horse", id: "l1-malware" },
+        { t: "Worm", id: "l1-malware" },
+        { t: "Spyware", id: "l1-malware" },
+        { t: "Keylogger", id: "l1-malware" },
+        { t: "Adware", id: "l1-malware" },
+        { t: "Ransomware", id: "l1-malware" },
+        { t: "Malware", id: "l1-malware" },
+        { t: "Cybercrime", id: "l1-cybercrime" },
+        { t: "Cracking", id: "l1-cracking" },
+        { t: "Unauthorized Access", id: "l1-unauth" },
+        { t: "CIA Triad", id: "l1-cia" },
+        { t: "Confidentiality", id: "l1-cia" },
+        { t: "Integrity", id: "l1-cia" },
+        { t: "Availability", id: "l1-cia" },
+        { t: "Password", id: "l2-password" },
+        { t: "OTP", id: "l2-otp" },
+        { t: "Authentication", id: "l2-auth" },
+        { t: "Two-Factor Authentication", id: "l2-2fa" },
+        { t: "Two-Step Authentication", id: "l2-2fa" },
+        { t: "Access Control", id: "l2-measures" },
+        { t: "Firewall", id: "l2-measures" },
+        { t: "Antivirus", id: "l2-measures" },
+        { t: "Updates", id: "l2-measures" },
+        { t: "Backup", id: "l2-measures" },
+        { t: "Fraudulent Billing", id: "l3-billing" },
+        { t: "One-click Fraud", id: "l3-oneclick" },
+        { t: "Phishing", id: "l3-phishing" },
+        { t: "Social Engineering", id: "l3-social" },
+        { t: "Impersonation", id: "l3-social" },
+        { t: "Shoulder Surfing", id: "l3-social" },
+        { t: "Dumpster Diving", id: "l3-social" },
+        { t: "Skimming", id: "l3-skimming" },
+        { t: "Information Security Policy", id: "l3-policy" },
+        { t: "مقارنة شاملة", id: "comparison" },
+        { t: "خريطة المفاهيم", id: "map" },
+        { t: "اختبار", id: "quiz" },
+      ];
+      function setupSearch(inputId, resultsId) {
+        const input = document.getElementById(inputId);
+        const results = document.getElementById(resultsId);
+        input.addEventListener("input", () => {
+          const v = input.value.trim().toLowerCase();
+          if (!v) {
+            results.classList.add("hidden");
+            return;
+          }
+          const matches = searchIndex.filter((s) =>
+            s.t.toLowerCase().includes(v),
+          );
+          if (!matches.length) {
+            results.innerHTML = `<p class="p-3 text-sm muted">لا توجد نتائج</p>`;
+            results.classList.remove("hidden");
+            return;
+          }
+          results.innerHTML = matches
+            .slice(0, 8)
+            .map(
+              (m) =>
+                `<button data-id="${m.id}" class="search-item w-full text-right px-4 py-2.5 text-sm hover:bg-black/5 flex items-center gap-2"><i data-lucide="arrow-left" class="w-3 h-3"></i>${m.t}</button>`,
+            )
+            .join("");
+          results.classList.remove("hidden");
+          lucide.createIcons();
+          results.querySelectorAll(".search-item").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const el = document.getElementById(btn.dataset.id);
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                el.classList.add("hl");
+                setTimeout(() => el.classList.remove("hl"), 1600);
+              }
+              results.classList.add("hidden");
+              input.value = "";
+              closeSidebar();
+            });
+          });
+        });
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !results.contains(e.target))
+            results.classList.add("hidden");
+        });
+      }
+      setupSearch("searchBox", "searchResults");
+      setupSearch("searchBoxMobile", "searchResultsMobile");
+
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
