@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منصة أمن المعلومات الشاملة - دراسة المعلومات</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { cairo: ["Cairo", "sans-serif"] },
+            colors: {
+              primary: "#1e40af",
+              secondary: "#0f172a",
+              accent: "#059669",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Cairo", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .tab-btn.active {
+        background-color: #1e40af;
+        color: #ffffff;
+        border-color: #1e40af;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid #e2e8f0;
+      }
+      .quiz-option.selected {
+        background-color: #dbeafe;
+        border-color: #3b82f6;
+      }
+      .quiz-option.correct {
+        background-color: #d1fae5;
+        border-color: #10b981;
+        color: #065f46;
+      }
+      .quiz-option.wrong {
+        background-color: #ffe4e6;
+        border-color: #f43f5e;
+        color: #9f1239;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-3">
+          <a
+            href="index.html"
+            class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-xl border border-slate-700 flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all shadow-sm"
+          >
+            <i class="fa-solid fa-book-open text-blue-400"></i>
+            <span>العودة لصفحة الشرح</span>
+          </a>
+          <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg">
+            <i class="fa-solid fa-shield-halved text-xl sm:text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-xl font-black">
+              منصة أسئلة أمن المعلومات الشاملة
+            </h1>
+            <p class="text-xs text-slate-400">
+              150 سؤال تفاعلي ومقالي مجاب عنه
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-wrap gap-2 justify-center bg-slate-800 p-1.5 rounded-xl border border-slate-700 text-xs sm:text-sm font-semibold"
+        >
+          <button
+            onclick="switchLesson(1)"
+            id="tab-1"
+            class="tab-btn active px-3.5 py-2 rounded-lg transition-all border border-transparent"
+          >
+            أسئلة الدرس الأول (50)
+          </button>
+          <button
+            onclick="switchLesson(2)"
+            id="tab-2"
+            class="tab-btn px-3.5 py-2 rounded-lg transition-all border border-transparent"
+          >
+            أسئلة الدرس الثاني (50)
+          </button>
+          <button
+            onclick="switchLesson(3)"
+            id="tab-3"
+            class="tab-btn px-3.5 py-2 rounded-lg transition-all border border-transparent"
+          >
+            أسئلة الدرس الثالث (50)
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
+      <!-- ================= LESSON 1 ================= -->
+      <section id="lesson-1" class="space-y-10 block">
+        <div
+          class="bg-gradient-to-r from-blue-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl"
+        >
+          <h2 class="text-2xl sm:text-4xl font-extrabold mt-3">
+            تهديدات وإجراءات مواجهة أمن المعلومات (1)
+          </h2>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-list-check text-blue-600"></i> اختبار الدرس
+            الأول (45 سؤال تفاعلي)
+          </h3>
+          <div id="quiz-container-1" class="space-y-6"></div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-pen-nib text-blue-600"></i> أسئلة مقالية
+            وتفكير (5 أسئلة)
+          </h3>
+          <div id="essay-container-1" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- ================= LESSON 2 ================= -->
+      <section id="lesson-2" class="space-y-10 hidden">
+        <div
+          class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl"
+        >
+          <h2 class="text-2xl sm:text-4xl font-extrabold mt-3">
+            التهديدات والتدابير المضادة في أمن المعلومات (2)
+          </h2>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-list-check text-indigo-600"></i> اختبار الدرس
+            الثاني (45 سؤال تفاعلي)
+          </h3>
+          <div id="quiz-container-2" class="space-y-6"></div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-pen-nib text-indigo-600"></i> أسئلة مقالية
+            وتفكير (5 أسئلة)
+          </h3>
+          <div id="essay-container-2" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- ================= LESSON 3 ================= -->
+      <section id="lesson-3" class="space-y-10 hidden">
+        <div
+          class="bg-gradient-to-r from-emerald-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl"
+        >
+          <h2 class="text-2xl sm:text-4xl font-extrabold mt-3">
+            التهديدات والتدابير المضادة في أمن المعلومات (3)
+          </h2>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-list-check text-emerald-600"></i> اختبار الدرس
+            الثالث (45 سؤال تفاعلي)
+          </h3>
+          <div id="quiz-container-3" class="space-y-6"></div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fa-solid fa-pen-nib text-emerald-600"></i> أسئلة مقالية
+            وتفكير (5 أسئلة)
+          </h3>
+          <div id="essay-container-3" class="space-y-3"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Quiz Engine Scripts -->
+    <script>
+      // Tab Switcher
+      function switchLesson(lessonNum) {
+        document
+          .querySelectorAll("main > section")
+          .forEach((sec) => sec.classList.add("hidden"));
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        document
+          .getElementById(`lesson-${lessonNum}`)
+          .classList.remove("hidden");
+        document.getElementById(`tab-${lessonNum}`).classList.add("active");
+      }
+
+      // --- أسئلة الدرس الأول (45 سؤال تفاعلي) ---
+      const quizL1 = [
+        {
+          q: "أمن المعلومات هو عملية:",
+          options: [
+            "زيادة سرعة الإنترنت",
+            "إدارة المعلومات بشكل صحيح والحفاظ عليها آمنة",
+            "حذف المعلومات القديمة",
+            "تغيير أنظمة التشغيل",
+          ],
+          correct: 1,
+        },
+        {
+          q: "أي مما يلي يمثل العناصر الأساسية الثلاثة لأمن المعلومات؟",
+          options: [
+            "السرية والسلامة والتوافرية",
+            "التشفير والمصادقة والتصيد",
+            "الفيروسات والديدان والتروجان",
+            "كلمة المرور والجدار والنسخ الاحتياطي",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الحالة التي يمكن فيها فقط للأفراد المصرح لهم الوصول إلى المعلومات تسمى:",
+          options: ["السلامة", "التوافرية", "السرية", "الاختراق"],
+          correct: 2,
+        },
+        {
+          q: "الحفاظ على المعلومات من التدمير أو العبث أو المحو يرتبط بـ:",
+          options: [
+            "Integrity",
+            "Availability",
+            "Confidentiality",
+            "Authentication",
+          ],
+          correct: 0,
+        },
+        {
+          q: "إمكانية الوصول إلى المعلومات عند الحاجة إليها تعبر عن:",
+          options: ["السرية", "السلامة", "التوافرية", "الاختراق"],
+          correct: 2,
+        },
+        {
+          q: "الوصول إلى نظام بشكل غير قانوني للتلاعب بالبيانات أو محوها أو سرقتها يسمى:",
+          options: [
+            "الوصول غير المصرح به",
+            "المصادقة",
+            "التحكم في الوصول",
+            "النسخ الاحتياطي",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الشخص الذي يقوم بأفعال الاختراق غير القانوني يسمى:",
+          options: ["User", "Cracker", "Administrator", "Developer"],
+          correct: 1,
+        },
+        {
+          q: "المصطلح العام للبرامج الضارة المصممة لإلحاق الضرر بأجهزة الكمبيوتر هو:",
+          options: ["Malware", "Firewall", "Authentication", "Availability"],
+          correct: 0,
+        },
+        {
+          q: "برنامج يتنكر على أنه برنامج شرعي ويتسلل إلى النظام يسمى:",
+          options: ["Worm", "Trojan Horse", "Adware", "Keylogger"],
+          correct: 1,
+        },
+        {
+          q: "البرنامج الذي ينسخ نفسه وينتشر عبر الإنترنت هو:",
+          options: ["Spyware", "Trojan", "Worm", "Ransomware"],
+          correct: 2,
+        },
+        {
+          q: "البرنامج الذي يجمع المعلومات الشخصية دون علم المستخدم يسمى:",
+          options: ["Spyware", "Adware", "Worm", "Firewall"],
+          correct: 0,
+        },
+        {
+          q: "البرنامج الذي يراقب ويسجل ضغطات لوحة المفاتيح هو:",
+          options: ["Trojan", "Keylogger", "Worm", "Ransomware"],
+          correct: 1,
+        },
+        {
+          q: "البرنامج الذي يعرض إعلانات غير مرغوب فيها دون موافقة المستخدم هو:",
+          options: ["Spyware", "Adware", "Virus", "Cracker"],
+          correct: 1,
+        },
+        {
+          q: "برنامج يجعل البيانات غير قابلة للوصول ويطالب بفدية هو:",
+          options: ["Virus", "Worm", "Ransomware", "Adware"],
+          correct: 2,
+        },
+        {
+          q: "أي مما يلي يعد من طرق الإصابة بالبرمجيات الخبيثة؟",
+          options: [
+            "مواقع الويب",
+            "مرفقات البريد الإلكتروني",
+            "USB",
+            "جميع ما سبق",
+          ],
+          correct: 3,
+        },
+        {
+          q: "(صح أم خطأ) السرية تعني أن جميع المستخدمين يستطيعون الوصول إلى المعلومات.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) السلامة تهدف إلى حماية المعلومات من العبث أو التغيير غير المصرح به.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) التوافرية تعني إمكانية الوصول إلى المعلومات عند الحاجة إليها.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) الوصول غير المصرح به يعني الدخول إلى النظام بطريقة قانونية.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) Malware هو مصطلح عام للبرامج الضارة.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) حصان طروادة يتنكر في صورة برنامج شرعي.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) الدودة لا تستطيع نسخ نفسها.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) Spyware يمكنه جمع معلومات شخصية دون علم المستخدم.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) Keylogger يقوم بتسجيل ضغطات لوحة المفاتيح.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) Ransomware يجعل البيانات غير قابلة للوصول ويطلب فدية.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "العناصر الأساسية الثلاثة لأمن المعلومات هي ______.",
+          options: [
+            "السرية، السلامة، التوافرية",
+            "التشفير، المصادقة، الجدار",
+            "الفيروس، الدودة، التروجان",
+            "كلمة المرور، OTP، PIN",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الحالة التي يكون فيها الوصول للمعلومات مقصورًا على الأشخاص المصرح لهم تسمى ______.",
+          options: ["السلامة", "التوافرية", "السرية", "المصادقة"],
+          correct: 2,
+        },
+        {
+          q: "الحالة التي تحافظ على المعلومات من التلاعب أو المحو تسمى ______.",
+          options: ["السرية", "السلامة", "التوافرية", "الاختراق"],
+          correct: 1,
+        },
+        {
+          q: "الحالة التي تسمح بالوصول إلى المعلومات عند الحاجة تسمى ______.",
+          options: ["السرية", "السلامة", "التوافرية", "المصادقة"],
+          correct: 2,
+        },
+        {
+          q: "البرامج الضارة يطلق عليها باللغة الإنجليزية ______.",
+          options: ["Malware", "Firewall", "Authentication", "Availability"],
+          correct: 0,
+        },
+        {
+          q: "البرنامج الذي يتنكر في صورة برنامج شرعي يسمى ______.",
+          options: ["Worm", "Trojan Horse", "Adware", "Ransomware"],
+          correct: 1,
+        },
+        {
+          q: "البرنامج الذي ينسخ نفسه وينتشر عبر الإنترنت يسمى ______.",
+          options: ["Trojan", "Worm", "Spyware", "Keylogger"],
+          correct: 1,
+        },
+        {
+          q: "البرنامج الذي يجمع المعلومات الشخصية دون علم المستخدم يسمى ______.",
+          options: ["Spyware", "Adware", "Worm", "Firewall"],
+          correct: 0,
+        },
+        {
+          q: "البرنامج الذي يسجل ضغطات لوحة المفاتيح يسمى ______.",
+          options: ["Trojan", "Keylogger", "Worm", "Ransomware"],
+          correct: 1,
+        },
+        {
+          q: "البرنامج الذي يمنع الوصول إلى البيانات ويطلب فدية يسمى ______.",
+          options: ["Virus", "Worm", "Ransomware", "Adware"],
+          correct: 2,
+        },
+        {
+          q: "قام شخص بالدخول إلى نظام المدرسة باستخدام كلمة مرور طالب آخر. ما نوع التهديد الذي حدث؟",
+          options: [
+            "الوصول غير المصرح به",
+            "التوافرية",
+            "النسخ الاحتياطي",
+            "التحديث",
+          ],
+          correct: 0,
+        },
+        {
+          q: "قام شخص بتغيير درجات الطلاب المخزنة في النظام دون تصريح. أي عنصر من عناصر أمن المعلومات تأثر؟",
+          options: ["السرية", "السلامة", "التوافرية", "المصادقة"],
+          correct: 1,
+        },
+        {
+          q: "توقف موقع إلكتروني عن العمل ولم يعد المستخدمون قادرين على الوصول إليه. أي عنصر من عناصر CIA تأثر؟",
+          options: ["السرية", "السلامة", "التوافرية", "الاختراق"],
+          correct: 2,
+        },
+        {
+          q: "تم تسريب ملف يحتوي على بيانات الطلاب إلى أشخاص غير مصرح لهم. أي عنصر من عناصر أمن المعلومات تم انتهاكه؟",
+          options: ["السرية", "السلامة", "التوافرية", "المصادقة"],
+          correct: 0,
+        },
+        {
+          q: "حمل طالب برنامجًا يبدو كأنه لعبة، ولكنه بدأ في تنفيذ نشاط ضار داخل الجهاز. ما نوع البرمجية الخبيثة المحتمل؟",
+          options: ["Worm", "Trojan Horse", "Firewall", "Authentication"],
+          correct: 1,
+        },
+        {
+          q: "أصيب جهاز ببرنامج يقوم بنسخ نفسه والانتشار إلى أجهزة أخرى عبر الشبكة. ما اسم هذا النوع؟",
+          options: ["Worm", "Trojan", "Adware", "Ransomware"],
+          correct: 0,
+        },
+        {
+          q: "اكتشف طالب برنامجًا على جهازه يجمع معلوماته الشخصية دون علمه. ما نوع البرنامج؟",
+          options: ["Spyware", "Firewall", "Worm", "Cracker"],
+          correct: 0,
+        },
+        {
+          q: "برنامج يقوم بتسجيل كل ما يكتبه المستخدم على لوحة المفاتيح. ما اسمه؟",
+          options: ["Trojan", "Keylogger", "Worm", "Ransomware"],
+          correct: 1,
+        },
+        {
+          q: "ظهرت للمستخدم إعلانات كثيرة وغير مرغوب فيها أثناء استخدام جهازه بسبب برنامج معين. ما نوع هذا البرنامج؟",
+          options: ["Spyware", "Adware", "Virus", "Cracker"],
+          correct: 1,
+        },
+        {
+          q: "أصبحت ملفات المستخدم غير قابلة للوصول وظهرت مطالبة بدفع مبلغ مالي. ما نوع التهديد؟",
+          options: ["Virus", "Worm", "Ransomware", "Adware"],
+          correct: 2,
+        },
+      ];
+      const essayL1 = [
+        "اشرح العناصر الثلاثة الأساسية لأمن المعلومات مع ذكر مثال لكل عنصر.",
+        "وضح الفرق بين السرية والسلامة والتوافرية.",
+        "اشرح الفرق بين Virus وTrojan Horse وWorm.",
+        "اشرح الفرق بين Spyware وKeylogger وAdware.",
+        "لماذا يمثل Ransomware خطرًا على المعلومات؟",
+      ];
+
+      // --- أسئلة الدرس الثاني (45 سؤال تفاعلي) ---
+      const quizL2 = [
+        {
+          q: "كلمة المرور هي سلسلة من الأحرف تستخدم من أجل:",
+          options: [
+            "التحقق من هوية المستخدم",
+            "حذف البيانات",
+            "زيادة سرعة الجهاز",
+            "تشغيل الشبكة",
+          ],
+          correct: 0,
+        },
+        {
+          q: "عند إنشاء كلمة مرور قوية يفضل:",
+          options: [
+            "استخدام تاريخ الميلاد",
+            "استخدام اسم المستخدم",
+            "استخدام سلسلة أحرف طويلة قدر الإمكان",
+            "استخدام كلمة قصيرة جدًا",
+          ],
+          correct: 2,
+        },
+        {
+          q: "من الأفضل أن تحتوي كلمة المرور على:",
+          options: [
+            "حروف فقط",
+            "أرقام فقط",
+            "حروف كبيرة وصغيرة وأرقام ورموز",
+            "اسم المستخدم فقط",
+          ],
+          correct: 2,
+        },
+        {
+          q: "أي مما يلي لا يفضل استخدامه في كلمة المرور؟",
+          options: [
+            "الرموز",
+            "الحروف الكبيرة والصغيرة",
+            "معلومات شخصية",
+            "الأرقام",
+          ],
+          correct: 2,
+        },
+        {
+          q: "كلمة المرور لمرة واحدة تسمى:",
+          options: ["OTP", "PIN", "USB", "URL"],
+          correct: 0,
+        },
+        {
+          q: "كلمة المرور لمرة واحدة تتميز بأنها:",
+          options: [
+            "تستخدم دائمًا دون تغيير",
+            "يمكن استخدامها مرة واحدة",
+            "لا تحتاج إلى مصادقة",
+            "تستخدم بدل جدار الحماية",
+          ],
+          correct: 1,
+        },
+        {
+          q: "عملية التحقق من هوية المستخدم تسمى:",
+          options: ["Authentication", "Availability", "Malware", "Cracking"],
+          correct: 0,
+        },
+        {
+          q: "استخدام كلمة المرور للتحقق من هوية المستخدم يمثل:",
+          options: [
+            "المصادقة القائمة على المعرفة",
+            "المصادقة البيومترية",
+            "المصادقة القائمة على الحيازة",
+            "التوافرية",
+          ],
+          correct: 0,
+        },
+        {
+          q: "بصمة الإصبع تعد مثالًا على:",
+          options: [
+            "المصادقة القائمة على المعرفة",
+            "المصادقة البيومترية",
+            "المصادقة القائمة على الحيازة",
+            "المصادقة الثنائية",
+          ],
+          correct: 1,
+        },
+        {
+          q: "استخدام بطاقة ذكية للتحقق من هوية المستخدم يمثل:",
+          options: [
+            "المصادقة القائمة على الحيازة",
+            "المصادقة البيومترية",
+            "المصادقة القائمة على المعرفة",
+            "المصادقة بكلمة مرور",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الجمع بين عاملين مختلفين مثل المعرفة والحيازة يسمى:",
+          options: [
+            "المصادقة الثنائية",
+            "المصادقة البيومترية",
+            "المصادقة القائمة على المعرفة",
+            "التشفير",
+          ],
+          correct: 0,
+        },
+        {
+          q: "من أمثلة المصادقة القائمة على المعرفة:",
+          options: ["بصمة الإصبع", "رمز PIN", "بطاقة ذكية", "الهاتف"],
+          correct: 1,
+        },
+        {
+          q: "من أمثلة المصادقة القائمة على الحيازة:",
+          options: ["كلمة المرور", "PIN", "بطاقة ذكية", "بصمة الإصبع"],
+          correct: 2,
+        },
+        {
+          q: "النظام الذي يمنع الوصول غير المصرح به من الخارج يسمى:",
+          options: ["Firewall", "Keylogger", "Spyware", "Adware"],
+          correct: 0,
+        },
+        {
+          q: "تحديث نظام التشغيل والبرامج باستمرار يساعد على:",
+          options: [
+            "منع الثغرات الأمنية",
+            "إنشاء كلمة مرور",
+            "إلغاء المصادقة",
+            "زيادة عدد المستخدمين",
+          ],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) يفضل استخدام معلومات شخصية مثل تاريخ الميلاد عند إنشاء كلمة المرور.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) يفضل أن تكون كلمة المرور طويلة قدر الإمكان.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) يفضل الجمع بين الأحرف الكبيرة والصغيرة والأرقام والرموز.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) يفضل استخدام كلمة المرور نفسها في جميع الخدمات.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) OTP هي كلمة مرور تستخدم لمرة واحدة.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) المصادقة هي عملية التحقق من هوية المستخدم.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) بصمة الإصبع من أمثلة المصادقة البيومترية.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) البطاقة الذكية من أمثلة المصادقة القائمة على الحيازة.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) المصادقة الثنائية تعتمد على عاملين مختلفين.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) تحديث نظام التشغيل يمكن أن يساعد في مواجهة الثغرات الأمنية.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "عملية التحقق من هوية المستخدم تسمى ______.",
+          options: ["Authentication", "Availability", "Malware", "Firewall"],
+          correct: 0,
+        },
+        {
+          q: "كلمة المرور باللغة الإنجليزية هي ______.",
+          options: ["Password", "Firewall", "Malware", "Cracker"],
+          correct: 0,
+        },
+        {
+          q: "كلمة المرور التي تستخدم لمرة واحدة تسمى ______.",
+          options: ["PIN", "OTP", "URL", "USB"],
+          correct: 1,
+        },
+        {
+          q: "المصادقة باستخدام بصمة الإصبع تسمى المصادقة ______.",
+          options: [
+            "القائمة على المعرفة",
+            "البيومترية",
+            "القائمة على الحيازة",
+            "الثنائية",
+          ],
+          correct: 1,
+        },
+        {
+          q: "استخدام كلمة المرور يمثل مصادقة قائمة على ______.",
+          options: ["المعرفة", "الحيازة", "البيومترية", "الثنائية"],
+          correct: 0,
+        },
+        {
+          q: "استخدام بطاقة ذكية يمثل مصادقة قائمة على ______.",
+          options: ["المعرفة", "الحيازة", "البيومترية", "الثنائية"],
+          correct: 1,
+        },
+        {
+          q: "الجمع بين عاملين مختلفين يسمى المصادقة ______.",
+          options: [
+            "البيومترية",
+            "القائمة على الحيازة",
+            "الثنائية",
+            "القائمة على المعرفة",
+          ],
+          correct: 2,
+        },
+        {
+          q: "النظام الذي يمنع الوصول غير المصرح به من الخارج يسمى ______.",
+          options: ["Firewall", "Keylogger", "Spyware", "Adware"],
+          correct: 0,
+        },
+        {
+          q: "يجب الحرص على تحديث نظام التشغيل والبرامج لمواجهة ______ الأمنية.",
+          options: ["الثغرات", "النسخ", "البصمات", "الفواتير"],
+          correct: 0,
+        },
+        {
+          q: "من إجراءات الحماية من فقدان البيانات إنشاء ______ احتياطية بانتظام.",
+          options: ["نسخة", "بصمة", "فاتورة", "رسالة"],
+          correct: 0,
+        },
+        {
+          q: "طالب أنشأ كلمة مرور تحتوي على اسمه وتاريخ ميلاده. ما الخطأ في طريقة إنشاء كلمة المرور؟",
+          options: [
+            "استخدام معلومات شخصية يسهل تخمينها",
+            "الطول الزائد",
+            "استخدام رموز",
+            "استخدام حروف كبيرة وصغيرة",
+          ],
+          correct: 0,
+        },
+        {
+          q: "مستخدم أنشأ كلمة مرور طويلة تحتوي على حروف كبيرة وصغيرة وأرقام ورموز. ما الذي يجعلها أقوى؟",
+          options: [
+            "قصرها",
+            "تنوع الأحرف وطولها",
+            "استخدام اسمه الشخصي",
+            "تكرار نفس الحرف",
+          ],
+          correct: 1,
+        },
+        {
+          q: "دخل مستخدم إلى حسابه باستخدام كلمة مرور ثم أدخل رمزًا وصل إلى هاتفه. ما نوع المصادقة؟",
+          options: [
+            "المصادقة الثنائية",
+            "المصادقة البيومترية فقط",
+            "كلمة مرور فقط",
+            "لا يوجد مصادقة",
+          ],
+          correct: 0,
+        },
+        {
+          q: "استخدم طالب بصمة إصبعه لفتح جهاز الكمبيوتر. ما نوع المصادقة؟",
+          options: [
+            "القائمة على المعرفة",
+            "البيومترية",
+            "القائمة على الحيازة",
+            "الثنائية",
+          ],
+          correct: 1,
+        },
+        {
+          q: "استخدم موظف بطاقة ذكية للدخول إلى نظام المؤسسة. ما نوع المصادقة؟",
+          options: [
+            "القائمة على المعرفة",
+            "البيومترية",
+            "القائمة على الحيازة",
+            "لا شيء مما سبق",
+          ],
+          correct: 2,
+        },
+        {
+          q: "استخدم طالب رمز PIN للدخول إلى جهازه. إلى أي نوع من عوامل المصادقة ينتمي؟",
+          options: [
+            "القائمة على المعرفة",
+            "البيومترية",
+            "القائمة على الحيازة",
+            "الثنائية",
+          ],
+          correct: 0,
+        },
+        {
+          q: "جهاز متصل بشبكة ويحاول منع الاتصالات غير المصرح بها من الخارج. ما الإجراء أو النظام المستخدم؟",
+          options: ["جدار الحماية Firewall", "كلمة المرور", "OTP", "Keylogger"],
+          correct: 0,
+        },
+        {
+          q: "لم تقم مؤسسة بتحديث نظام التشغيل لفترة طويلة. ما المشكلة الأمنية المحتملة؟",
+          options: [
+            "بقاء ثغرات أمنية دون إصلاح",
+            "زيادة سرعة الجهاز",
+            "تحسين الأداء",
+            "لا توجد مشكلة",
+          ],
+          correct: 0,
+        },
+        {
+          q: "فقد موظف بعض البيانات بسبب مشكلة في الجهاز ولم يكن لديه نسخة منها. ما الإجراء الأمني الذي كان يجب اتخاذه؟",
+          options: [
+            "إنشاء نسخ احتياطية بانتظام",
+            "استخدام كلمة مرور أقوى",
+            "تفعيل جدار الحماية فقط",
+            "تحديث المتصفح",
+          ],
+          correct: 0,
+        },
+        {
+          q: "مستخدم يستعمل نفس كلمة المرور لحسابه البنكي والبريد الإلكتروني وحساباته الأخرى. لماذا يمثل ذلك خطرًا؟",
+          options: [
+            "لأنه لا يوجد خطر",
+            "لأن اختراق حساب واحد يعرض كل الحسابات للخطر",
+            "لأنه يبطئ الجهاز",
+            "لأنه يمنع المصادقة الثنائية",
+          ],
+          correct: 1,
+        },
+      ];
+      const essayL2 = [
+        "اذكر إرشادات إنشاء كلمة مرور قوية.",
+        "اشرح أنواع المصادقة الثلاثة: القائمة على المعرفة، والبيومترية، والقائمة على الحيازة.",
+        "ما المقصود بالمصادقة الثنائية؟ مع ذكر مثال.",
+        "ما وظيفة جدار الحماية Firewall؟",
+        "اشرح أهمية تحديث نظام التشغيل والبرامج وإنشاء النسخ الاحتياطية.",
+      ];
+
+      // --- أسئلة الدرس الثالث (45 سؤال تفاعلي) ---
+      const quizL3 = [
+        {
+          q: "إصدار فاتورة لشخص مقابل خدمة لم يستخدمها بهدف الحصول على المال يسمى:",
+          options: ["فاتورة احتيالية", "التصيد", "التلصص المباشر", "التشفير"],
+          correct: 0,
+        },
+        {
+          q: "الاحتيال الذي يعتمد على الضغط على رابط واحد للحصول على المال أو المعلومات يسمى:",
+          options: [
+            "One-click fraud",
+            "Dumpster diving",
+            "Skimming",
+            "Impersonation",
+          ],
+          correct: 0,
+        },
+        {
+          q: "استخدام مواقع ويب مزيفة تدعي أنها تابعة لجهة موثوقة للحصول على بيانات المستخدم يسمى:",
+          options: ["Phishing", "Worm", "Adware", "Firewall"],
+          correct: 0,
+        },
+        {
+          q: "الهندسة الاجتماعية تعتمد بشكل أساسي على:",
+          options: [
+            "استغلال النفس البشرية أو قلة الوعي",
+            "زيادة سرعة الإنترنت",
+            "تحديث البرامج",
+            "النسخ الاحتياطي",
+          ],
+          correct: 0,
+        },
+        {
+          q: "التظاهر بأنك شخص آخر للحصول على معلومات يسمى:",
+          options: [
+            "Impersonation",
+            "Skimming",
+            "Dumpster diving",
+            "Availability",
+          ],
+          correct: 0,
+        },
+        {
+          q: "مراقبة شخص أثناء إدخاله كلمة المرور تسمى:",
+          options: [
+            "Shoulder surfing",
+            "Phishing",
+            "Fraudulent billing",
+            "One-click fraud",
+          ],
+          correct: 0,
+        },
+        {
+          q: "البحث في المهملات للحصول على معلومات حساسة يسمى:",
+          options: ["Skimming", "Dumpster diving", "Impersonation", "Cracking"],
+          correct: 1,
+        },
+        {
+          q: "استخراج البيانات من بطاقة بشكل غير قانوني لاستخدامها في إنشاء بطاقة مزورة يسمى:",
+          options: ["Skimming", "Shoulder surfing", "Phishing", "Malware"],
+          correct: 0,
+        },
+        {
+          q: "مجموعة القواعد والإرشادات التي تضعها المؤسسة للحفاظ على أمن المعلومات تسمى:",
+          options: [
+            "سياسة أمن المعلومات",
+            "كلمة المرور",
+            "المصادقة",
+            "جدار الحماية",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الجزء الذي يصف المبادئ الأساسية والإعلانات المتعلقة بأمن المعلومات هو:",
+          options: [
+            "السياسة الأساسية",
+            "معايير الأمان",
+            "إجراءات التشغيل",
+            "المصادقة",
+          ],
+          correct: 0,
+        },
+        {
+          q: "القواعد اللازمة لتطبيق السياسة الأساسية عمليًا تسمى:",
+          options: ["معايير الأمان", "التصيد", "التلصص", "الاحتيال"],
+          correct: 0,
+        },
+        {
+          q: "الإجراءات التي توضح كيفية تنفيذ العمل وتحقيق الهدف المقصود ترتبط بـ:",
+          options: [
+            "إجراءات التنفيذ وقواعد التشغيل",
+            "كلمة المرور",
+            "التصيد",
+            "الفاتورة الاحتيالية",
+          ],
+          correct: 0,
+        },
+        {
+          q: "الرسائل المزيفة التي تدعي أنها من جهة موثوقة بهدف الحصول على بيانات المستخدم تمثل:",
+          options: ["Phishing", "Ransomware", "Worm", "Keylogger"],
+          correct: 0,
+        },
+        {
+          q: "الاتصال الهاتفي بشخص والتظاهر بأن المتصل شخص آخر للحصول على معلومات يمثل:",
+          options: ["Impersonation", "Skimming", "Dumpster diving", "Adware"],
+          correct: 0,
+        },
+        {
+          q: "أي مما يلي يعد مثالًا على الهندسة الاجتماعية؟",
+          options: [
+            "انتحال الشخصية",
+            "التلصص المباشر",
+            "البحث في المهملات",
+            "جميع ما سبق",
+          ],
+          correct: 3,
+        },
+        {
+          q: "(صح أم خطأ) الفاتورة الاحتيالية تهدف إلى الحصول على المال مقابل خدمة غير مستخدمة.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) One-click fraud قد يعتمد على الضغط على رابط واحد.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) التصيد يستخدم رسائل أو مواقع مزيفة للحصول على معلومات المستخدم.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) الهندسة الاجتماعية تعتمد فقط على الثغرات التقنية.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) انتحال الشخصية يعني التظاهر بأنك شخص آخر.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) Shoulder surfing يعني البحث في سلة المهملات.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "(صح أم خطأ) Dumpster diving يعني البحث في المهملات للحصول على معلومات حساسة.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) Skimming يمكن أن يتضمن استخراج بيانات بطاقة بطريقة غير قانونية.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) سياسة أمن المعلومات عبارة عن مجموعة قواعد وإرشادات للحفاظ على أمن المعلومات.",
+          options: ["صح", "خطأ"],
+          correct: 0,
+        },
+        {
+          q: "(صح أم خطأ) سياسة أمن المعلومات لا علاقة لها بإجراءات العمل داخل المؤسسة.",
+          options: ["صح", "خطأ"],
+          correct: 1,
+        },
+        {
+          q: "إرسال فاتورة لشخص مقابل خدمة وهمية بهدف الحصول على المال يسمى ______.",
+          options: ["فاتورة احتيالية", "Phishing", "Skimming", "Impersonation"],
+          correct: 0,
+        },
+        {
+          q: "الاحتيال الذي يعتمد على الضغط على رابط واحد يسمى ______.",
+          options: [
+            "One-click fraud",
+            "Dumpster diving",
+            "Skimming",
+            "Shoulder surfing",
+          ],
+          correct: 0,
+        },
+        {
+          q: "إرسال رسالة مزيفة تدعي أنها من جهة موثوقة يسمى ______.",
+          options: ["Phishing", "Ransomware", "Worm", "Firewall"],
+          correct: 0,
+        },
+        {
+          q: "استغلال علم النفس البشري أو قلة الوعي للحصول على المعلومات يسمى ______.",
+          options: [
+            "الهندسة الاجتماعية",
+            "التشفير",
+            "المصادقة",
+            "التحكم في الوصول",
+          ],
+          correct: 0,
+        },
+        {
+          q: "التظاهر بأنك شخص آخر للحصول على المعلومات يسمى ______.",
+          options: ["Impersonation", "Skimming", "Dumpster diving", "Phishing"],
+          correct: 0,
+        },
+        {
+          q: "مراقبة شخص أثناء إدخاله كلمة المرور تسمى ______.",
+          options: [
+            "Shoulder surfing",
+            "Dumpster diving",
+            "Skimming",
+            "Impersonation",
+          ],
+          correct: 0,
+        },
+        {
+          q: "البحث في المهملات للحصول على معلومات سرية يسمى ______.",
+          options: [
+            "Skimming",
+            "Dumpster diving",
+            "Phishing",
+            "Shoulder surfing",
+          ],
+          correct: 1,
+        },
+        {
+          q: "استخراج بيانات بطاقة بشكل غير قانوني يسمى ______.",
+          options: ["Skimming", "Phishing", "Dumpster diving", "Impersonation"],
+          correct: 0,
+        },
+        {
+          q: "مجموعة القواعد والإرشادات الأساسية للحفاظ على أمن المعلومات تسمى ______.",
+          options: [
+            "سياسة أمن المعلومات",
+            "جدار الحماية",
+            "المصادقة الثنائية",
+            "التشفير",
+          ],
+          correct: 0,
+        },
+        {
+          q: "تحدد ______ القواعد اللازمة لتطبيق السياسة الأساسية بشكل عملي.",
+          options: [
+            "معايير الأمان",
+            "الفاتورة الاحتيالية",
+            "المصادقة البيومترية",
+            "Skimming",
+          ],
+          correct: 0,
+        },
+        {
+          q: "وصلت رسالة إلكترونية لشخص تدعي أنها من بنك وتطلب منه إدخال بياناته من خلال رابط. ما نوع التهديد؟",
+          options: ["Phishing", "Skimming", "Dumpster diving", "Ransomware"],
+          correct: 0,
+        },
+        {
+          q: "شخص اتصل بموظف وادعى أنه مديره وطلب منه معلومات سرية. ما الأسلوب المستخدم؟",
+          options: ["Impersonation", "Skimming", "Firewall", "Adware"],
+          correct: 0,
+        },
+        {
+          q: "شخص يقف بجانب مستخدم ويراقب الرقم الذي يكتبه لفتح هاتفه. ما اسم هذا الأسلوب؟",
+          options: [
+            "Shoulder surfing",
+            "Dumpster diving",
+            "Phishing",
+            "Skimming",
+          ],
+          correct: 0,
+        },
+        {
+          q: "وجد شخص أوراقًا تحتوي على معلومات حساسة في صندوق القمامة وقام بالبحث فيها. ما الأسلوب المستخدم؟",
+          options: [
+            "Dumpster diving",
+            "Shoulder surfing",
+            "Phishing",
+            "Impersonation",
+          ],
+          correct: 0,
+        },
+        {
+          q: "استخدم شخص جهازًا لاستخراج بيانات بطاقة شخص آخر واستخدمها لإنشاء بطاقة مزورة. ما نوع التهديد؟",
+          options: ["Skimming", "Phishing", "Dumpster diving", "Adware"],
+          correct: 0,
+        },
+        {
+          q: "تلقى شخص فاتورة لخدمة لم يستخدمها وطُلب منه دفع قيمتها. ما نوع الاحتيال؟",
+          options: [
+            "فاتورة احتيالية",
+            "One-click fraud",
+            "Skimming",
+            "Impersonation",
+          ],
+          correct: 0,
+        },
+        {
+          q: "وصلت رسالة بها رابط، وعند الضغط عليه ظهرت مطالبة بدفع مبلغ مالي. ما نوع الاحتيال المذكور في الدرس؟",
+          options: [
+            "One-click fraud",
+            "Dumpster diving",
+            "Skimming",
+            "Firewall",
+          ],
+          correct: 0,
+        },
+        {
+          q: "لماذا يمكن أن تنجح الهندسة الاجتماعية رغم عدم وجود اختراق تقني مباشر؟",
+          options: [
+            "لأنها تستغل ثقة وقلة وعي البشر لا الثغرات التقنية",
+            "لأنها تخترق جدار الحماية دائمًا",
+            "لأنها تعتمد على كسر التشفير",
+            "لأنها لا تحتاج أي تفاعل بشري",
+          ],
+          correct: 0,
+        },
+        {
+          q: "مؤسسة وضعت قواعد تحدد كيفية حماية معلوماتها ومن المسؤول عن كل إجراء أمني. ماذا تسمى هذه القواعد؟",
+          options: ["سياسة أمن المعلومات", "جدار الحماية", "OTP", "Skimming"],
+          correct: 0,
+        },
+        {
+          q: "مؤسسة لديها سياسة أمن معلومات لكنها لم تحدد الإجراءات العملية اللازمة لتنفيذها. أي جزء من السياسة يحتاج إلى تحديد؟",
+          options: [
+            "إجراءات التنفيذ وقواعد التشغيل",
+            "السياسة الأساسية فقط",
+            "كلمة المرور",
+            "المصادقة الثنائية",
+          ],
+          correct: 0,
+        },
+      ];
+      const essayL3 = [
+        "اشرح مفهوم الهندسة الاجتماعية واذكر أمثلة عليها من الدرس.",
+        "وضح الفرق بين Phishing وImpersonation وShoulder Surfing.",
+        "وضح الفرق بين Dumpster Diving وSkimming.",
+        "ما المقصود بسياسة أمن المعلومات؟ وما أهميتها للمؤسسة؟",
+        "اشرح مستويات سياسة أمن المعلومات الموضحة في الدرس: السياسة الأساسية – معايير الأمان – إجراءات التنفيذ وقواعد التشغيل.",
+      ];
+
+      // Quiz Rendering Engine
+      function renderQuiz(containerId, questionsArray) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+
+        questionsArray.forEach((qObj, index) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.className =
+            "bg-slate-50 border border-slate-200 p-5 rounded-2xl mb-4";
+
+          const title = document.createElement("h4");
+          title.className = "font-bold text-slate-900 mb-3";
+          title.innerText = `${index + 1}. ${qObj.q}`;
+          questionDiv.appendChild(title);
+
+          const optionsGrid = document.createElement("div");
+          optionsGrid.className = "grid grid-cols-1 md:grid-cols-2 gap-2";
+
+          qObj.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className =
+              "quiz-option text-right p-3 border border-slate-300 rounded-xl text-sm font-semibold transition-all hover:bg-slate-100";
+            btn.innerText = opt;
+            btn.onclick = () =>
+              handleAnswer(optionsGrid, btn, optIndex, qObj.correct);
+            optionsGrid.appendChild(btn);
+          });
+
+          questionDiv.appendChild(optionsGrid);
+          container.appendChild(questionDiv);
+        });
+      }
+
+      function handleAnswer(grid, clickedBtn, selectedIndex, correctIndex) {
+        // Disable all buttons in this question
+        const buttons = grid.querySelectorAll("button");
+        buttons.forEach((btn) => {
+          btn.disabled = true;
+          btn.classList.remove("hover:bg-slate-100");
+          btn.style.cursor = "default";
+        });
+
+        // Mark correct and wrong
+        if (selectedIndex === correctIndex) {
+          clickedBtn.classList.add("correct");
+          clickedBtn.innerHTML += ' <i class="fa-solid fa-check mr-2"></i>';
+        } else {
+          clickedBtn.classList.add("wrong");
+          clickedBtn.innerHTML += ' <i class="fa-solid fa-xmark mr-2"></i>';
+          // Highlight the correct one
+          buttons[correctIndex].classList.add("correct");
+        }
+      }
+
+      function renderEssay(containerId, essayArray) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        essayArray.forEach((qText, index) => {
+          const div = document.createElement("div");
+          div.className =
+            "bg-amber-50 border border-amber-200 p-5 rounded-2xl mb-3";
+          const p = document.createElement("p");
+          p.className = "font-bold text-slate-900";
+          p.innerText = `${index + 1}. ${qText}`;
+          div.appendChild(p);
+          container.appendChild(div);
+        });
+      }
+
+      // Initialize Quizzes on load
+      window.onload = () => {
+        renderQuiz("quiz-container-1", quizL1);
+        renderEssay("essay-container-1", essayL1);
+        renderQuiz("quiz-container-2", quizL2);
+        renderEssay("essay-container-2", essayL2);
+        renderQuiz("quiz-container-3", quizL3);
+        renderEssay("essay-container-3", essayL3);
+
+        // Auto-switch lesson tab if URL has ?lesson=1 / 2 / 3
+        const params = new URLSearchParams(window.location.search);
+        const lNum = parseInt(params.get("lesson"));
+        if (lNum >= 1 && lNum <= 3) {
+          switchLesson(lNum);
+        }
+      };
+    </script>
+  </body>
+</html>
